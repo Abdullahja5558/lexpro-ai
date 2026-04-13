@@ -1,11 +1,35 @@
-import { LayoutDashboard } from 'lucide-react'
-import React from 'react'
-import LexProFinal from './dashboard/page'
+"use client";
 
-const page = () => {
+import React, { useState, useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import LexProFinal from './dashboard/page';
+import InitialLoader from '@/components/InitialLoader'; // Ensure path is correct
+
+const Page = () => {
+  const [isPageLoading, setIsPageLoading] = useState(true);
+
+  useEffect(() => {
+    // 2.5 seconds premium loading experience
+    const timer = setTimeout(() => {
+      setIsPageLoading(false);
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <LexProFinal/>
-  )
-}
+    <>
+      {/* 1. Initial High-End Loader */}
+      <AnimatePresence mode="wait">
+        {isPageLoading && <InitialLoader key="loader" />}
+      </AnimatePresence>
 
-export default page
+      {/* 2. Main Dashboard with smooth entry */}
+      {!isPageLoading && (
+        <LexProFinal />
+      )}
+    </>
+  );
+};
+
+export default Page;
