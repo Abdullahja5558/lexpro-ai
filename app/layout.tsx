@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: "%s | Lex Pro",
   },
   description: "Explore Pakistan's legal system with Lex Pro. AI-powered insights into PPC, CrPC, and the Constitution of Pakistan.",
-  keywords: ["Pakistan Law", "Legal AI", "PPC Pakistan", "CrPC", "Constitution of Pakistan", "Lex Pro", "Legal Advisor AI"],
+  keywords: [  "","Lex pro ai","Pakistan Law", "Legal AI", "PPC Pakistan", "CrPC", "Constitution of Pakistan", "Lex Pro", "Legal Advisor AI"],
   authors: [{ name: "Abdullah Javed" }],
   creator: "Abdullah Javed",
   
