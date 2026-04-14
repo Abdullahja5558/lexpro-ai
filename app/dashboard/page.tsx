@@ -43,7 +43,6 @@ const PromptCard = ({ p, isDark, onClick }: any) => (
 );
 
 // --- Constants ---
-
 const initialPrompts = [
   { title: "Article 199", desc: "High Court's Writ Jurisdiction.", icon: <Gavel size={18}/>, query: "Explain the scope of Writ Jurisdiction under Article 199 of the Constitution of Pakistan." },
   { title: "PPC Section 302", desc: "Punishment for Qatl-i-Amd.", icon: <ShieldCheck size={18}/>, query: "What are the essential ingredients and punishments under PPC Section 302?" },
@@ -74,7 +73,6 @@ export default function LexProFinal() {
     const savedMode = localStorage.getItem("lex-mode") || "Pro";
     setTheme(savedTheme);
     setMode(savedMode);
-
     const handleDoubleClick = () => setIsSettingsOpen(false);
     window.addEventListener("dblclick", handleDoubleClick);
     return () => window.removeEventListener("dblclick", handleDoubleClick);
@@ -120,15 +118,12 @@ export default function LexProFinal() {
   const handleAsk = async (forcedQuery?: string) => {
     const activeQuery = forcedQuery || query;
     if (loading || !activeQuery.trim()) return;
-
     const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     setMessages(prev => [...prev, { role: "user", text: activeQuery, time }]);
     setLoading(true);
     setQuery("");
-
     const controller = new AbortController();
     abortControllerRef.current = controller;
-
     try {
       const res = await fetch("/api/ask", {
         method: "POST",
@@ -159,18 +154,26 @@ export default function LexProFinal() {
       isDark ? "bg-[#0a0a0a] text-white" : "bg-[#f8f2f4] bg-gradient-to-br from-[#f8f2f4] via-[#fcf8f9] to-[#f4ebef] text-slate-900"
     }`}>
       
-      {/* Header - Scaled for Mobile */}
-      <header className="fixed top-0 left-0 w-full p-5 md:p-10 flex items-center gap-3 z-[100]">
-        <div className={`w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg transition-all ${isDark ? "bg-white text-black" : "bg-[#1a1a1a] text-white"}`}>
+      {/* 1. Floating Side Logo (Minimal) */}
+      <div className="fixed top-6 left-6 md:top-10 md:left-10 flex items-center gap-3 z-[100] pointer-events-none">
+        <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shadow-lg transition-all ${isDark ? "bg-white text-black" : "bg-[#1a1a1a] text-white"}`}>
           <Scale size={20} />
         </div>
-        <span className={`font-bold text-[15px] md:text-[18px] tracking-tight transition-colors ${isDark ? "text-white" : "text-slate-800"}`}>Lex Pro</span>
-      </header>
+        <span className={`font-bold text-[14px] md:text-[16px] tracking-tight transition-colors ${isDark ? "text-white" : "text-slate-800"}`}>
+          Lex Pro
+        </span>
+      </div>
 
-      <main className="flex-1 flex flex-col relative px-4 md:px-6 z-10 overflow-hidden">
-        <AnimatePresence>
+      <main className="flex-1 flex flex-col relative px-4 md:px-6 z-10 overflow-hidden items-center justify-center">
+        <AnimatePresence mode="wait">
           {messages.length === 0 ? (
-            <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, y: -20 }} className="flex-1 flex flex-col items-center justify-center text-center -mt-12 md:-mt-16">
+            <motion.div 
+              key="hero"
+              initial={{ opacity: 0, scale: 0.98 }} 
+              animate={{ opacity: 1, scale: 1 }} 
+              exit={{ opacity: 0, y: -20 }} 
+              className="w-full flex flex-col items-center justify-center text-center"
+            >
               <motion.div initial={{ rotate: -10, scale: 0.8 }} animate={{ rotate: 0, scale: 1 }} className={`w-12 h-12 md:w-16 md:h-16 rounded-[22px] md:rounded-[28px] flex items-center justify-center shadow-2xl mb-6 md:mb-8 transition-all ${isDark ? "bg-white text-black" : "bg-[#1a1a1a] text-white"}`}>
                 <Sparkles size={28} />
               </motion.div>
@@ -178,12 +181,18 @@ export default function LexProFinal() {
               <h2 className={`text-lg md:text-2xl font-semibold mb-6 md:mb-8 ${isDark ? "text-slate-400" : "text-slate-500"}`}>How can I assist you today?</h2>
               <div className={`max-w-xs md:max-w-xl mx-auto p-4 md:p-5 rounded-2xl md:rounded-3xl border transition-all ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100"}`}>
                 <p className={`text-[13px] md:text-[15px] font-medium leading-relaxed ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-                   Explore <span className="text-indigo-500 font-bold uppercase">Pakistan's Legal System</span>. Ask about <span className={isDark ? "text-white" : "text-black"}>PPC, CrPC, CPC,</span> or the <span className={isDark ? "text-white" : "text-black"}>Constitution</span>. Running in <span className="inline-flex items-center gap-1 bg-indigo-500 text-white px-2 py-0.5 rounded-full text-[10px] md:text-[12px] font-black">{mode} Mode</span>
+                    Explore <span className="text-indigo-500 font-bold uppercase">Pakistan's Legal System</span>. Ask about <span className={isDark ? "text-white" : "text-black"}>PPC, CrPC, CPC,</span> or the <span className={isDark ? "text-white" : "text-black"}>Constitution</span>. Running in <span className="inline-flex items-center gap-1 bg-indigo-500 text-white px-2 py-0.5 rounded-full text-[10px] md:text-[12px] font-black">{mode} Mode</span>
                 </p>
               </div>
             </motion.div>
           ) : (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} ref={chatContainerRef} className="w-full max-w-4xl mx-auto h-full flex-1 overflow-y-auto no-scrollbar pt-24 md:pt-32 pb-10 space-y-6 md:space-y-8 px-2">
+            <motion.div 
+              key="chat"
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              ref={chatContainerRef} 
+              className="w-full max-w-4xl mx-auto h-full flex-1 overflow-y-auto no-scrollbar pt-24 pb-10 space-y-6 md:space-y-8 px-2"
+            >
               {messages.map((m, i) => (
                 <div key={i} className={`flex gap-3 md:gap-5 ${m.role === 'user' ? 'flex-row-reverse' : 'justify-start'}`}>
                   <div className="shrink-0">
@@ -214,8 +223,7 @@ export default function LexProFinal() {
         </AnimatePresence>
       </main>
 
-      {/* Footer Area - Optimized for Mobile Typing */}
-      <footer className="w-full pb-4 md:pb-10 flex flex-col items-center z-[80] px-4 md:px-6 relative">
+      <footer className="w-full pb-6 md:pb-12 flex flex-col items-center z-[80] px-4 md:px-6 relative shrink-0">
         <AnimatePresence>
           {messages.length === 0 && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, height: 0, marginBottom: 0, overflow: 'hidden' }} className="w-full max-w-4xl relative mb-4 md:mb-8">
@@ -224,7 +232,6 @@ export default function LexProFinal() {
                   <PromptCard key={i} p={p} isDark={isDark} onClick={() => handleAsk(p.query)} />
                 ))}
               </div>
-              {/* Desktop-only refresh button position updated for mobile-friendly tap */}
               <button onClick={handleRefreshPrompts} className={`absolute -right-1 -top-4 md:top-1/2 md:-translate-y-1/2 w-9 h-9 md:w-11 md:h-11 border shadow-xl rounded-full flex items-center justify-center active:scale-90 transition-all z-[90] ${isDark ? "bg-[#1a1a1a] border-slate-800 text-white" : "bg-white border-slate-100 text-slate-600"}`}>
                 <RefreshCw size={16} />
               </button>
@@ -233,17 +240,15 @@ export default function LexProFinal() {
         </AnimatePresence>
 
         <div className={`w-full max-w-3xl backdrop-blur-3xl border rounded-[25px] md:rounded-[35px] shadow-2xl flex items-center p-1.5 md:p-2 transition-all relative ${isDark ? "bg-black/60 border-white/10" : "bg-white/95 border-white"}`}>
-          
           <div className="relative">
             <button onClick={(e) => { e.stopPropagation(); setIsSettingsOpen(!isSettingsOpen); }} className={`p-3 md:p-4 transition-colors ${isDark ? "text-slate-400 hover:text-white" : "text-slate-400 hover:text-black"}`}>
               <Settings size={18} className={isSettingsOpen ? "rotate-90 transition-transform" : "transition-transform"} />
             </button>
-
             <AnimatePresence>
               {isSettingsOpen && (
                 <motion.div initial={{ opacity: 0, y: 10, scale: 0.95 }} animate={{ opacity: 1, y: -12, scale: 1 }} exit={{ opacity: 0, y: 10, scale: 0.95 }} className={`absolute bottom-full left-0 mb-2 w-44 md:w-48 p-2 rounded-[20px] shadow-2xl border backdrop-blur-3xl z-[110] transition-all ${isDark ? "bg-black/80 border-white/10" : "bg-white/90 border-slate-100"}`}>
-                   <div className="space-y-1">
-                      <div className="flex p-1 bg-slate-500/10 rounded-xl mb-2">
+                    <div className="space-y-1">
+                       <div className="flex p-1 bg-slate-500/10 rounded-xl mb-2">
                         <button onClick={() => toggleTheme('light')} className={`flex-1 flex items-center justify-center py-1.5 rounded-lg transition-all ${!isDark ? 'bg-white shadow-sm text-black' : 'text-slate-400'}`}><Sun size={13}/></button>
                         <button onClick={() => toggleTheme('dark')} className={`flex-1 flex items-center justify-center py-1.5 rounded-lg transition-all ${isDark ? 'bg-white shadow-sm text-black' : 'text-slate-400'}`}><Moon size={13}/></button>
                       </div>
@@ -253,25 +258,17 @@ export default function LexProFinal() {
                           {mode === m.id && <Check size={11} />}
                         </button>
                       ))}
-                   </div>
+                    </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
-          
-          <input 
-            value={query} 
-            onChange={(e) => setQuery(e.target.value)} 
-            onKeyDown={(e) => e.key === "Enter" && handleAsk()} 
-            placeholder="Ask Lex Pro..." 
-            className={`flex-1 bg-transparent px-2 md:px-4 outline-none text-[14px] md:text-[16px] font-semibold transition-colors ${isDark ? "text-white placeholder:text-slate-600" : "text-slate-800 placeholder:text-slate-300"}`} 
-          />
-
+          <input value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleAsk()} placeholder="Ask Lex Pro..." className={`flex-1 bg-transparent px-2 md:px-4 outline-none text-[14px] md:text-[16px] font-semibold transition-colors ${isDark ? "text-white placeholder:text-slate-600" : "text-slate-800 placeholder:text-slate-300"}`} />
           <div className="flex items-center gap-1 md:gap-2 pr-1 md:pr-2">
-             <button onClick={loading ? handleStop : () => handleAsk()} disabled={!query.trim() && !loading} className={`h-10 md:h-12 transition-all active:scale-95 shadow-lg flex items-center justify-center gap-2 rounded-full ${loading ? 'w-10 md:w-12 px-0 bg-red-500 text-white hover:bg-red-600' : 'px-4 md:px-8 ' + (isDark ? "bg-white text-black hover:bg-slate-200" : "bg-[#1a1a1a] text-white hover:bg-black")} disabled:opacity-20`}>
-               {loading ? <Square size={14} fill="white" /> : <Send size={16} className="rotate-[-45deg]" />}
-               {!loading && <span className="hidden md:inline text-[14px] font-bold">Send</span>}
-             </button>
+              <button onClick={loading ? handleStop : () => handleAsk()} disabled={!query.trim() && !loading} className={`h-10 md:h-12 transition-all active:scale-95 shadow-lg flex items-center justify-center gap-2 rounded-full ${loading ? 'w-10 md:w-12 px-0 bg-red-500 text-white hover:bg-red-600' : 'px-4 md:px-8 ' + (isDark ? "bg-white text-black hover:bg-slate-200" : "bg-[#1a1a1a] text-white hover:bg-black")} disabled:opacity-20`}>
+                {loading ? <Square size={14} fill="white" /> : <Send size={16} className="rotate-[-45deg]" />}
+                {!loading && <span className="hidden md:inline text-[14px] font-bold">Send</span>}
+              </button>
           </div>
         </div>
       </footer>
