@@ -43,7 +43,7 @@ function getRelevantContext(query: string, limit: number = 40000): string {
     const lines = doc.content.split('\n');
     const relevantLines = lines.filter(line => 
       keywords.some(key => line.toLowerCase().includes(key))
-    ).slice(0, 100); // Grab top 100 matching lines per doc
+    ).slice(0, 100); // Grab top 100 
 
     context += `\n[SOURCE: ${doc.name}]\n${relevantLines.join('\n')}\n`;
   });
