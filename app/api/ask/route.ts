@@ -66,7 +66,7 @@ export async function POST(req: Request) {
     const contextSlice = getRelevantContext(query);
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4o", // Use GPT-4o for superior legal reasoning
+      model: "gpt-4o", 
       temperature: 0.1, // Near-zero for factual consistency
       messages: [
         { 
