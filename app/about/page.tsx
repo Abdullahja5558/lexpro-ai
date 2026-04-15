@@ -1,37 +1,61 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import CountUp from "react-countup";
 import { 
   Cpu, Shield, Gavel, Users, Search, Activity, 
-  CheckCircle2, Globe2, BookOpen, MessageSquare, 
-  ArrowLeft, Zap, Database, Lock,ShieldCheck, Award,  Globe,
+  BookOpen, MessageSquare, ArrowLeft, Zap, 
+  Database, Lock, ShieldCheck, Award, Globe,
 } from "lucide-react";
 
 export default function AboutSection({ isDark }: { isDark: boolean }) {
-  const [liveUsers, setLiveUsers] = useState(1250);
+  // --- LOGIC FOR PERSISTENT INCREASING NUMBERS ---
+  // We use a fixed past date to calculate "elapsed" time so numbers never reset.
+  const START_DATE = new Date("2026-04-15").getTime(); 
+  
+  const [statsValues, setStatsValues] = useState({
+    community: 120,
+    consultations: 85,
+    liveUsers: 650,
+  });
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const randomFactor = Math.random();
-      let change = 0;
-      if (randomFactor > 0.8) change = Math.floor(Math.random() * 250) + 100;
-      else if (randomFactor < 0.2) change = -(Math.floor(Math.random() * 300) + 50);
-      else change = Math.floor(Math.random() * 21) - 10;
+    const updateNumbers = () => {
+      const now = new Date().getTime();
+      const secondsElapsed = Math.floor((now - START_DATE) / 1000);
+      const twoMinutesInSeconds = 120;
 
-      setLiveUsers((prev) => {
-        const next = prev + change;
-        return next < 450 ? 510 : next > 2500 ? 2100 : next;
-      });
-    }, 5000);
+      // 1. Community: Starts at 1200, adds 23 every 2 minutes
+      const communityGrowth = Math.floor((secondsElapsed / twoMinutesInSeconds) * 23);
+      
+      // 2. Legal: Starts at 85,000, adds 1320 every 2 minutes
+      const legalGrowth = Math.floor((secondsElapsed / twoMinutesInSeconds) * 132);
+
+      // 3. Live Users: Random fluctuation logic
+      const randomFactor = Math.random();
+      let liveChange = 0;
+      if (randomFactor > 0.8) liveChange = Math.floor(Math.random() * 50) + 10;
+      else if (randomFactor < 0.2) liveChange = -(Math.floor(Math.random() * 30) + 5);
+      else liveChange = Math.floor(Math.random() * 11) - 5;
+
+      setStatsValues(prev => ({
+        community: 1200 + communityGrowth,
+        consultations: 85000 + legalGrowth,
+        liveUsers: Math.max(500, Math.min(2500, prev.liveUsers + liveChange))
+      }));
+    };
+
+    // Run once immediately, then every 5 seconds for the "live" feel
+    updateNumbers();
+    const interval = setInterval(updateNumbers, 5000);
     return () => clearInterval(interval);
   }, []);
 
   const stats = [
-    { label: "Community Members", value: 12400, suffix: "+", icon: <Users size={20} /> },
-    { label: "Legal Consultations", value: 850000, suffix: "+", icon: <Search size={20} /> },
-    { label: "Live Real-time", value: liveUsers, icon: <Activity size={20} className="text-emerald-500 animate-pulse" />, isLive: true },
+    { label: "Community Members", value: statsValues.community, suffix: "+", icon: <Users size={20} /> },
+    { label: "Legal Consultations", value: statsValues.consultations, suffix: "+", icon: <Search size={20} /> },
+    { label: "Live Real-time", value: statsValues.liveUsers, icon: <Activity size={20} className="text-emerald-500 animate-pulse" />, isLive: true },
   ];
 
   const textColor = isDark ? "text-white" : "text-slate-900";
@@ -80,10 +104,10 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
                 {s.icon}
               </div>
               <div className="flex items-baseline gap-1">
-                <span className={`text-5xl md:text-7xl font-black tracking-tighter ${textColor}`}>
-                  <CountUp end={s.value} duration={2} preserveValue={true} separator="," />
+                <span className={`text-4xl md:text-6xl font-black tracking-tighter ${textColor}`}>
+                  <CountUp end={s.value} duration={1} separator="," />
                 </span>
-                {s.suffix && <span className="text-3xl font-black text-indigo-500">{s.suffix}</span>}
+                {s.suffix && <span className="text-2xl font-black text-indigo-500">{s.suffix}</span>}
               </div>
               <p className={`mt-4 text-[14px] font-black uppercase tracking-[0.2em] ${isDark ? "text-indigo-300" : "text-indigo-900"}`}>{s.label}</p>
               {s.isLive && (
@@ -97,96 +121,62 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
         </div>
       </section>
 
-      {/* --- SECTION 3: LEGAL MODULES & HARDWARE ENGINE --- */}
-<section className={`py-24 px-6 md:px-12 border-y ${isDark ? "bg-white/[0.02] border-white/10" : "bg-indigo-50/50 border-indigo-100"}`}>
-  <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-    <div>
-      <h3 className={`text-4xl md:text-6xl font-black tracking-tighter mb-8 ${textColor}`}>Deep Legal <br />Analysis.</h3>
-      <p className={`text-[17px] mb-10 font-bold leading-relaxed ${descColor}`}>Lex Pro monitors and analyzes thousands of legal data points to ensure you get the most accurate constitutional guidance.</p>
-      <div className="space-y-4">
-        {[
-          { title: "Constitutional Law", icon: <Shield size={20}/> },
-          { title: "Criminal Code (PPC)", icon: <Gavel size={20}/> },
-          { title: "Civil Procedures (CPC)", icon: <BookOpen size={20}/> }
-        ].map((item, idx) => (
-          <div key={idx} className={`flex items-center gap-5 p-5 rounded-3xl border transition-all hover:translate-x-2 ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-200 shadow-sm"}`}>
-              <div className="text-indigo-500">{item.icon}</div>
-              <span className={`font-black text-[15px] uppercase tracking-wide ${textColor}`}>{item.title}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    {/* STILL HARDWARE VISUAL WITH WIRES/CIRCUITS */}
-    <div className={`relative aspect-square rounded-[60px] overflow-hidden border-4 flex items-center justify-center ${isDark ? "bg-[#08090a] border-white/10" : "bg-slate-200 border-indigo-100 shadow-inner"}`}>
-        
-        {/* PCB Motherboard Background (Still Wires) */}
-        <div className="absolute inset-0 opacity-40">
-          <svg width="100%" height="100%" className="absolute inset-0">
-            {/* Horizontal and Vertical "Power Wires" */}
-            <path d="M0 100 H500 M0 200 H500 M0 300 H500 M100 0 V500 M200 0 V500 M300 0 V500" stroke="#4F46E5" strokeWidth="0.5" fill="none" />
-            
-            {/* Angled Wires leading to Chip */}
-            <path d="M50 50 L150 150 M450 50 L350 150 M50 450 L150 350 M450 450 L350 350" stroke="#6366f1" strokeWidth="2" strokeDasharray="5,5" fill="none" />
-            
-            {/* Glowing Connection Nodes */}
-            <circle cx="150" cy="150" r="3" fill="#818cf8" />
-            <circle cx="350" cy="150" r="3" fill="#818cf8" />
-            <circle cx="150" cy="350" r="3" fill="#818cf8" />
-            <circle cx="350" cy="350" r="3" fill="#818cf8" />
-          </svg>
-        </div>
-
-        {/* The Chip Socket (Background behind chip) */}
-        <div className="absolute w-64 h-64 bg-slate-900/50 rounded-[40px] border border-indigo-500/20 shadow-2xl"></div>
-
-        {/* --- CENTRAL SILICON CHIP (STILL) --- */}
-        <div className="relative z-10 w-56 h-56 bg-[#121212] rounded-2xl border-[4px] border-slate-800 flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-          
-          {/* Hardware Pins (Gold/Metallic) */}
-          {[0, 90, 180, 270].map((deg, i) => (
-              <div key={i} className="absolute w-full h-full" style={{ transform: `rotate(${deg}deg)` }}>
-                  <div className="flex justify-around w-full -mt-4 px-6">
-                      {[1, 2, 3, 4, 5].map(p => (
-                          <div key={p} className="w-2 h-5 bg-gradient-to-b from-yellow-600 to-yellow-800 rounded-b-sm border-x border-black/20" />
-                      ))}
-                  </div>
-              </div>
-          ))}
-
-          {/* Chip Heat Spreader (Metallic Cover) */}
-          <div className="w-[88%] h-[88%] bg-gradient-to-br from-[#1e1e1e] to-[#0a0a0a] rounded-xl border border-white/5 p-1 flex items-center justify-center">
-              <div className="w-full h-full rounded-lg bg-[#111] border border-indigo-500/10 flex flex-col items-center justify-center relative overflow-hidden">
-                
-                {/* Still Glow from "Power Wires" underneath */}
-                <div className="absolute inset-0 bg-indigo-500/5 blur-3xl opacity-50"></div>
-
-                {/* Central CPU Icon */}
-                <div className="p-5 rounded-2xl bg-black/40 border border-white/5 relative z-10 shadow-inner">
-                  <Cpu size={56} className="text-indigo-500/80" strokeWidth={1} />
+      {/* --- SECTION 3: LEGAL MODULES & HARDWARE --- */}
+      <section className={`py-24 px-6 md:px-12 border-y ${isDark ? "bg-white/[0.02] border-white/10" : "bg-indigo-50/50 border-indigo-100"}`}>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div>
+            <h3 className={`text-4xl md:text-6xl font-black tracking-tighter mb-8 ${textColor}`}>Deep Legal <br />Analysis.</h3>
+            <p className={`text-[17px] mb-10 font-bold leading-relaxed ${descColor}`}>Lex Pro monitors and analyzes thousands of legal data points to ensure you get the most accurate constitutional guidance.</p>
+            <div className="space-y-4">
+              {[
+                { title: "Constitutional Law", icon: <Shield size={20}/> },
+                { title: "Criminal Code (PPC)", icon: <Gavel size={20}/> },
+                { title: "Civil Procedures (CPC)", icon: <BookOpen size={20}/> }
+              ].map((item, idx) => (
+                <div key={idx} className={`flex items-center gap-5 p-5 rounded-3xl border transition-all hover:translate-x-2 ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-200 shadow-sm"}`}>
+                    <div className="text-indigo-500">{item.icon}</div>
+                    <span className={`font-black text-[15px] uppercase tracking-wide ${textColor}`}>{item.title}</span>
                 </div>
-                
-               
+              ))}
+            </div>
+          </div>
 
-                {/* Light Traces (Still) */}
-                <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100">
-                  <rect x="20" y="20" width="60" height="60" stroke="white" strokeWidth="0.2" fill="none" />
-                  <path d="M0 50 H100 M50 0 V100" stroke="indigo" strokeWidth="0.1" />
+          <div className={`relative aspect-square rounded-[60px] overflow-hidden border-4 flex items-center justify-center ${isDark ? "bg-[#08090a] border-white/10" : "bg-slate-200 border-indigo-100 shadow-inner"}`}>
+              <div className="absolute inset-0 opacity-40">
+                <svg width="100%" height="100%" className="absolute inset-0">
+                  <path d="M0 100 H500 M0 200 H500 M0 300 H500 M100 0 V500 M200 0 V500 M300 0 V500" stroke="#4F46E5" strokeWidth="0.5" fill="none" />
+                  <path d="M50 50 L150 150 M450 50 L350 150 M50 450 L150 350 M450 450 L350 350" stroke="#6366f1" strokeWidth="2" strokeDasharray="5,5" fill="none" />
+                  <circle cx="150" cy="150" r="3" fill="#818cf8" />
+                  <circle cx="350" cy="150" r="3" fill="#818cf8" />
+                  <circle cx="150" cy="350" r="3" fill="#818cf8" />
+                  <circle cx="350" cy="350" r="3" fill="#818cf8" />
                 </svg>
               </div>
+              <div className="absolute w-64 h-64 bg-slate-900/50 rounded-[40px] border border-indigo-500/20 shadow-2xl"></div>
+              <div className="relative z-10 w-56 h-56 bg-[#121212] rounded-2xl border-[4px] border-slate-800 flex items-center justify-center">
+                {[0, 90, 180, 270].map((deg, i) => (
+                    <div key={i} className="absolute w-full h-full" style={{ transform: `rotate(${deg}deg)` }}>
+                        <div className="flex justify-around w-full -mt-4 px-6">
+                            {[1, 2, 3, 4, 5].map(p => (
+                                <div key={p} className="w-2 h-5 bg-gradient-to-b from-yellow-600 to-yellow-800 rounded-b-sm" />
+                            ))}
+                        </div>
+                    </div>
+                ))}
+                <div className="w-[88%] h-[88%] bg-gradient-to-br from-[#1e1e1e] to-[#0a0a0a] rounded-xl border border-white/5 p-1 flex items-center justify-center">
+                    <div className="w-full h-full rounded-lg bg-[#111] border border-indigo-500/10 flex flex-col items-center justify-center relative overflow-hidden">
+                      <div className="absolute inset-0 bg-indigo-500/5 blur-3xl opacity-50"></div>
+                      <div className="p-5 rounded-2xl bg-black/40 border border-white/5 relative z-10">
+                        <Cpu size={56} className="text-indigo-500/80" strokeWidth={1} />
+                      </div>
+                    </div>
+                </div>
+              </div>
           </div>
         </div>
-        {/* --- END CHIP --- */}
+      </section>
 
-        {/* Power Supply "Glow" coming from corners */}
-        <div className="absolute top-0 left-0 w-32 h-32 bg-indigo-600/10 blur-[60px] rounded-full"></div>
-        <div className="absolute bottom-0 right-0 w-32 h-32 bg-indigo-600/10 blur-[60px] rounded-full"></div>
-
-    </div>
-  </div>
-</section>
-
-      {/* --- SECTION 4: AI CORE FEATURES (NEW) --- */}
+      {/* --- SECTION 4: FEATURES --- */}
       <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h3 className={`text-3xl md:text-5xl font-black tracking-tighter ${textColor}`}>Engineered for Precision.</h3>
@@ -206,39 +196,23 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
         </div>
       </section>
 
-     <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto text-center">
-  <p className={`text-[11px] font-bold uppercase tracking-[0.4em] mb-12 ${mutedColor} opacity-70`}>
-    Official Legal Technology Partners
-  </p>
-  
-  <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8">
-    {[
-      { text: "SECURE", icon: <ShieldCheck size={20} /> },
-      { text: "ISO CERTIFIED", icon: <Award size={20} /> },
-      { text: "COMPLIANT", icon: <Lock size={20} /> },
-      { text: "GLOBAL", icon: <Globe size={20} /> }
-    ].map((badge, i) => (
-      <div 
-        key={i} 
-        className={`
-          group flex items-center gap-3 px-6 py-3 rounded-full border transition-all duration-300 cursor-default
-          ${isDark 
-            ? "bg-white/5 border-white/10 hover:border-indigo-500/50 hover:bg-indigo-500/5 text-white/50 hover:text-white" 
-            : "bg-slate-50 border-slate-200 hover:border-indigo-400 hover:bg-white text-slate-400 hover:text-indigo-700 shadow-sm hover:shadow-md"
-          }
-        `}
-      >
-        <span className={`${isDark ? "text-indigo-400" : "text-indigo-600"} group-hover:scale-110 transition-transform`}>
-          {badge.icon}
-        </span>
-        <span className="text-xs md:text-sm font-black tracking-widest uppercase">
-          {badge.text}
-        </span>
-      </div>
-    ))}
-  </div>
-</section>
-
+      {/* --- SECTION 5: BADGES --- */}
+      <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto text-center">
+        <p className={`text-[11px] font-bold uppercase tracking-[0.4em] mb-12 ${mutedColor} opacity-70`}>Official Legal Technology Partners</p>
+        <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8">
+          {[
+            { text: "SECURE", icon: <ShieldCheck size={20} /> },
+            { text: "ISO CERTIFIED", icon: <Award size={20} /> },
+            { text: "COMPLIANT", icon: <Lock size={20} /> },
+            { text: "GLOBAL", icon: <Globe size={20} /> }
+          ].map((badge, i) => (
+            <div key={i} className={`group flex items-center gap-3 px-6 py-3 rounded-full border transition-all duration-300 ${isDark ? "bg-white/5 border-white/10 text-white/50" : "bg-slate-50 border-slate-200 text-slate-400"}`}>
+              <span className={`${isDark ? "text-indigo-400" : "text-indigo-600"}`}>{badge.icon}</span>
+              <span className="text-xs md:text-sm font-black tracking-widest uppercase">{badge.text}</span>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
