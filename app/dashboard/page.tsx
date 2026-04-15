@@ -196,13 +196,13 @@ export default function LexProFinal() {
               <motion.div initial={{ rotate: -10, scale: 0.8 }} animate={{ rotate: 0, scale: 1 }} className={`w-12 h-12 md:w-16 md:h-16 rounded-[22px] md:rounded-[28px] flex items-center justify-center shadow-2xl mb-6 md:mb-8 transition-all ${isDark ? "bg-white text-black" : "bg-[#1a1a1a] text-white"}`}>
                 <Sparkles size={28} />
               </motion.div>
-              <div className="mb-20 md:mb-24 px-2 ">
+              
               <h1 className={`text-3xl md:text-6xl font-bold tracking-tight mb-2 md:mb-2 ${isDark ? "text-white" : "text-[#1a1a1a]"}`}>Hi, there! 👋🏻</h1>
               <h2 className={`text-lg md:text-2xl font-semibold mb-2 md:mb-2 ${isDark ? "text-slate-400" : "text-slate-500"}`}>How can I assist you today?</h2>
               <div className={`max-w-xs md:max-w-xl mx-auto p-4 md:p-5 rounded-2xl md:rounded-3xl border transition-all ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100"}`}>
                 <p className={`text-[13px] md:text-[15px] font-medium leading-relaxed ${isDark ? "text-slate-400" : "text-slate-500"}`}>
                     Explore <span className="text-indigo-500 font-bold uppercase">Pakistan's Legal System</span>. Ask about <span className={isDark ? "text-white" : "text-black"}>PPC, QSO, CrPC, QANUN-E-SHAHADAT  </span> or the <span className={isDark ? "text-white" : "text-black"}>Constitution</span>. Running in <span className="inline-flex items-center gap-1 bg-indigo-500 text-white px-2 py-0.5 rounded-full text-[10px] md:text-[12px] font-black">{mode} Mode</span>
-                </p></div>
+                </p>
               </div>
             </motion.div>
           ) : (
