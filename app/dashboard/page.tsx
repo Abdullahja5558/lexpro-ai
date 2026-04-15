@@ -47,7 +47,7 @@ const PromptCard = ({ p, isDark, onClick }: any) => (
   whileTap={{ scale: 0.98 }}
   onClick={onClick}
   // Yahan 'translate-y-3' add kiya hai jo card ko thora niche shift kar dega
-  className={`translate-y-6 p-4 md:p-5 rounded-[24px] md:rounded-[28px] border shadow-sm cursor-pointer transition-all flex items-center md:flex-col md:items-start gap-3 md:gap-4 md:min-h-[150px] md:justify-between overflow-hidden ${
+  className={`translate-y-2 md:translate-y-6 p-4 md:p-5 rounded-[24px] md:rounded-[28px] border shadow-sm cursor-pointer transition-all flex items-center md:flex-col md:items-start gap-3 md:gap-4 md:min-h-[150px] md:justify-between overflow-hidden ${
     isDark
       ? "bg-white/5 border-white/10 hover:bg-white/10 text-white"
       : "bg-white/70 backdrop-blur-xl border-white/50 hover:bg-white text-slate-800"
