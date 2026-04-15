@@ -39,7 +39,7 @@ function getRelevantContext(query: string, limit: number = 40000): string {
   let context = "";
 
   legalDatabase.forEach(doc => {
-    // If query is broad, take snippets. If specific, find matches.
+    
     const lines = doc.content.split('\n');
     const relevantLines = lines.filter(line => 
       keywords.some(key => line.toLowerCase().includes(key))
