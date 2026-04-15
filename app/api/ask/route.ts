@@ -5,9 +5,7 @@ import path from 'path';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-
 let legalDatabase: { name: string, content: string }[] = [];
-
 
 async function loadLegalDatabase() {
   if (legalDatabase.length > 0) return; 
@@ -16,7 +14,9 @@ async function loadLegalDatabase() {
   const files = [
     { name: "Constitution of Pakistan", path: 'law.txt' },
     { name: "Pakistan Penal Code (PPC)", path: 'ppc.txt' },
-    { name: "Code of Criminal Procedure (CrPC)", path: 'cpc.txt' }
+    { name: "Code of Criminal Procedure (CrPC)", path: 'cpc.txt' },
+    // --- Naya Add Kiya Gaya: Qanun-e-Shahadat ---
+    { name: "The Qanun-e-Shahadat Order (QSO), 1984", path: 'QS.txt' }
   ];
 
   for (const file of files) {
@@ -25,21 +25,16 @@ async function loadLegalDatabase() {
       const content = await fs.readFile(fullPath, 'utf8');
       legalDatabase.push({ name: file.name, content });
     } catch (err) {
-      console.warn(`Warning: Could not load ${file.name}`);
+      console.warn(`Warning: Could not load ${file.name} from ${file.path}`);
     }
   }
 }
-
-
- 
- 
 
 function getRelevantContext(query: string, limit: number = 40000): string {
   const keywords = query.toLowerCase().split(' ').filter(w => w.length > 3);
   let context = "";
 
   legalDatabase.forEach(doc => {
-    
     const lines = doc.content.split('\n');
     const relevantLines = lines.filter(line => 
       keywords.some(key => line.toLowerCase().includes(key))
@@ -48,9 +43,9 @@ function getRelevantContext(query: string, limit: number = 40000): string {
     context += `\n[SOURCE: ${doc.name}]\n${relevantLines.join('\n')}\n`;
   });
 
-  
+  // Agar context empty ho toh general data dein
   if (context.length < 500) {
-    context = legalDatabase.map(d => d.content.substring(0, 15000)).join('\n');
+    context = legalDatabase.map(d => d.content.substring(0, 10000)).join('\n');
   }
 
   return context.substring(0, limit);
@@ -73,13 +68,13 @@ export async function POST(req: Request) {
           role: "system", 
           content: `You are Lex Pro Core v4, a high-level Legal Intelligence System for Pakistan.
           
-          GOAL: Provide actionable, cited, and cross-referenced legal analysis.
+          GOAL: Provide actionable, cited, and cross-referenced legal analysis using PPC, CrPC, Constitution, and QSO.
           
           STRICT PROTOCOLS:
-          1. CROSS-REFERENCE: Link CrPC procedures to PPC offenses. (e.g., "Under PPC 302, the procedure for bail is governed by CrPC 497").
-          2. HIERARCHY: Always check if the Constitution overrides the specific Section mentioned.
-          3. LANGUAGE: Respond in ${language}. If Urdu, use professional legal terminology (Adalati Zuban).
-          
+          1. CROSS-REFERENCE: Link CrPC procedures and QSO evidence rules to PPC offenses. (e.g., "Under PPC 302, evidence must follow QSO 1984 protocols").
+          2. EVIDENCE ANALYSIS: Use Qanun-e-Shahadat (QSO) to explain how facts are proved in court.
+          3. HIERARCHY: Always check if the Constitution overrides the specific Section mentioned.
+          4. LANGUAGE: Respond in ${language}. If Urdu, use professional legal terminology (Adalati Zuban).
           
           LEGAL REFERENCE DATA:
           ${contextSlice}` 

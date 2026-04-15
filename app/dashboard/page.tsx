@@ -5,8 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   Send, Scale, Sparkles, Loader2, Square, 
   Settings, Gavel, BookOpen, ShieldCheck, RefreshCw,
-  Moon, Sun, Cpu, Zap, Crown, Check, AlertCircle, Copy 
+  Moon, Sun, Cpu, Zap, Crown, Check, AlertCircle, Copy,
+  UserCircle2, FileText
 } from "lucide-react";
+import { useRouter } from "next/navigation"; 
 
 // --- Sub-Components ---
 
@@ -28,16 +30,16 @@ const PromptCard = ({ p, isDark, onClick }: any) => (
   <motion.div 
     whileTap={{ scale: 0.98 }}
     onClick={onClick}
-    className={`p-4 md:p-6 rounded-[22px] md:rounded-[28px] border shadow-sm cursor-pointer transition-all flex items-center md:flex-col md:items-start gap-4 md:h-[140px] md:justify-between ${
+    className={`p-4 md:p-5 rounded-[24px] md:rounded-[28px] border shadow-sm cursor-pointer transition-all flex items-center md:flex-col md:items-start gap-3 md:gap-4 md:min-h-[150px] md:justify-between overflow-hidden ${
       isDark ? "bg-white/5 border-white/10 hover:bg-white/10 text-white" : "bg-white/70 backdrop-blur-xl border-white/50 hover:bg-white text-slate-800"
     }`}
   >
     <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl flex items-center justify-center shrink-0 transition-all ${isDark ? "bg-white text-black" : "bg-[#1a1a1a] text-white"}`}>
       {p.icon}
     </div>
-    <div className="flex flex-col overflow-hidden">
-      <p className="font-bold text-[13px] md:text-[14px] uppercase tracking-wide line-clamp-1">{p.title}</p>
-      <p className={`text-[11px] md:text-[12px] font-medium line-clamp-1 md:line-clamp-2 ${isDark ? "text-slate-400" : "text-slate-500"}`}>{p.desc}</p>
+    <div className="flex flex-col overflow-hidden w-full">
+      <p className="font-bold text-[12px] md:text-[14px] uppercase tracking-wider line-clamp-1 mb-0.5 md:mb-1 leading-tight">{p.title}</p>
+      <p className={`text-[11px] md:text-[12px] font-medium line-clamp-2 leading-snug ${isDark ? "text-slate-400" : "text-slate-500"}`}>{p.desc}</p>
     </div>
   </motion.div>
 );
@@ -45,17 +47,21 @@ const PromptCard = ({ p, isDark, onClick }: any) => (
 // --- Constants ---
 const initialPrompts = [
   { title: "Article 199", desc: "High Court's Writ Jurisdiction.", icon: <Gavel size={18}/>, query: "Explain the scope of Writ Jurisdiction under Article 199 of the Constitution of Pakistan." },
-  { title: "PPC Section 302", desc: "Punishment for Qatl-i-Amd.", icon: <ShieldCheck size={18}/>, query: "What are the essential ingredients and punishments under PPC Section 302?" },
+  { title: "Article 3 (QSO)", desc: "Competency of Witness.", icon: <FileText size={18}/>, query: "Who is a competent witness according to Article 3 of Qanun-e-Shahadat Order 1984?" },
   { title: "Bail (CrPC 497)", desc: "Procedure for Grant of Bail.", icon: <Scale size={18}/>, query: "Explain the law and procedure for the grant of bail in bailable and non-bailable offences under Section 497 of CrPC." },
 ];
 
 const extraPrompts = [
+  { title: "PPC Section 302", desc: "Punishment for Qatl-i-Amd.", icon: <ShieldCheck size={18}/>, query: "What are the essential ingredients and punishments under PPC Section 302?" },
+  { title: "Article 163 (QSO)", desc: "Deciding case on Oath.", icon: <BookOpen size={18}/>, query: "What is the procedure and importance of Article 163 of QSO regarding decision on the basis of Oath?" },
+  { title: "Dying Declaration", desc: "Article 46(1) QSO.", icon: <FileText size={18}/>, query: "What is a Dying Declaration and its evidentiary value under Article 46(1) of Qanun-e-Shahadat Order?" },
+  { title: "Identification Parade", desc: "Article 22 QSO.", icon: <ShieldCheck size={18}/>, query: "Explain the concept and legal requirements of Identification Parade under Article 22 of QSO." },
   { title: "CrPC Section 154", desc: "Registration of FIR procedure.", icon: <BookOpen size={18}/>, query: "What is the legal procedure for lodging an FIR under Section 154 of CrPC?" },
   { title: "Article 184(3)", desc: "Supreme Court's Suo Moto.", icon: <Gavel size={18}/>, query: "Discuss the Suo Moto jurisdiction of the Supreme Court under Article 184(3)." },
-  { title: "Remand (CrPC 167)", desc: "Police custody regulations.", icon: <Gavel size={18}/>, query: "What is the procedure for physical remand of an accused under Section 167 of CrPC?" },
 ];
 
 export default function LexProFinal() {
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -154,7 +160,7 @@ export default function LexProFinal() {
       isDark ? "bg-[#0a0a0a] text-white" : "bg-[#f8f2f4] bg-gradient-to-br from-[#f8f2f4] via-[#fcf8f9] to-[#f4ebef] text-slate-900"
     }`}>
       
-      {/* 1. Floating Side Logo (Minimal) */}
+      {/* 1. Floating Side Logo */}
       <div className="fixed top-6 left-6 md:top-10 md:left-10 flex items-center gap-3 z-[100] pointer-events-none">
         <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shadow-lg transition-all ${isDark ? "bg-white text-black" : "bg-[#1a1a1a] text-white"}`}>
           <Scale size={20} />
@@ -163,6 +169,19 @@ export default function LexProFinal() {
           Lex Pro
         </span>
       </div>
+
+      {/* --- PREMIUM ABOUT BUTTON (Top Right) --- */}
+      <button 
+        onClick={() => router.push("/about")}
+        className="fixed top-6 right-6 md:top-10 md:right-10 flex items-center gap-2 z-[100] group active:scale-95 transition-all cursor-pointer pointer-events-auto"
+      >
+        <div className={`px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg backdrop-blur-xl border transition-all ${
+          isDark ? "bg-white/5 border-white/10 hover:bg-white/10 text-white" : "bg-white/80 border-white text-slate-800 hover:bg-white"
+        }`}>
+          <UserCircle2 size={18} />
+          <span className="text-[12px] md:text-[14px] font-bold uppercase tracking-widest hidden sm:inline">About</span>
+        </div>
+      </button>
 
       <main className="flex-1 flex flex-col relative px-4 md:px-6 z-10 overflow-hidden items-center justify-center">
         <AnimatePresence mode="wait">
@@ -181,7 +200,7 @@ export default function LexProFinal() {
               <h2 className={`text-lg md:text-2xl font-semibold mb-6 md:mb-8 ${isDark ? "text-slate-400" : "text-slate-500"}`}>How can I assist you today?</h2>
               <div className={`max-w-xs md:max-w-xl mx-auto p-4 md:p-5 rounded-2xl md:rounded-3xl border transition-all ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100"}`}>
                 <p className={`text-[13px] md:text-[15px] font-medium leading-relaxed ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-                    Explore <span className="text-indigo-500 font-bold uppercase">Pakistan's Legal System</span>. Ask about <span className={isDark ? "text-white" : "text-black"}>PPC, CrPC, CPC,</span> or the <span className={isDark ? "text-white" : "text-black"}>Constitution</span>. Running in <span className="inline-flex items-center gap-1 bg-indigo-500 text-white px-2 py-0.5 rounded-full text-[10px] md:text-[12px] font-black">{mode} Mode</span>
+                    Explore <span className="text-indigo-500 font-bold uppercase">Pakistan's Legal System</span>. Ask about <span className={isDark ? "text-white" : "text-black"}>PPC, QSO, CrPC, QANUN-E-SHAHADAT  </span> or the <span className={isDark ? "text-white" : "text-black"}>Constitution</span>. Running in <span className="inline-flex items-center gap-1 bg-indigo-500 text-white px-2 py-0.5 rounded-full text-[10px] md:text-[12px] font-black">{mode} Mode</span>
                 </p>
               </div>
             </motion.div>
@@ -227,12 +246,12 @@ export default function LexProFinal() {
         <AnimatePresence>
           {messages.length === 0 && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, height: 0, marginBottom: 0, overflow: 'hidden' }} className="w-full max-w-4xl relative mb-4 md:mb-8">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 md:gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
                 {prompts.map((p, i) => (
                   <PromptCard key={i} p={p} isDark={isDark} onClick={() => handleAsk(p.query)} />
                 ))}
               </div>
-              <button onClick={handleRefreshPrompts} className={`absolute -right-1 -top-4 md:top-1/2 md:-translate-y-1/2 w-9 h-9 md:w-11 md:h-11 border shadow-xl rounded-full flex items-center justify-center active:scale-90 transition-all z-[90] ${isDark ? "bg-[#1a1a1a] border-slate-800 text-white" : "bg-white border-slate-100 text-slate-600"}`}>
+              <button onClick={handleRefreshPrompts} className={`absolute -right-2 -top-4 md:top-1/2 md:-translate-y-1/2 w-9 h-9 md:w-11 md:h-11 border shadow-xl rounded-full flex items-center justify-center active:scale-90 transition-all z-[90] ${isDark ? "bg-[#1a1a1a] border-slate-800 text-white" : "bg-white border-slate-100 text-slate-600"}`}>
                 <RefreshCw size={16} />
               </button>
             </motion.div>

@@ -1,30 +1,28 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import CountUp from "react-countup";
 import { 
   Cpu, Shield, Gavel, Users, Search, Activity, 
-  CheckCircle2, Globe2, BookOpen
+  CheckCircle2, Globe2, BookOpen, MessageSquare, 
+  ArrowLeft, Zap, Database, Lock,ShieldCheck, Award,  Globe,
 } from "lucide-react";
 
 export default function AboutSection({ isDark }: { isDark: boolean }) {
-  // --- Dynamic Live User Logic (Big Jumps for Realism) ---
   const [liveUsers, setLiveUsers] = useState(1250);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // Kabhi 200 ka jump, kabhi 10 ka drop - taake trusted lage
       const randomFactor = Math.random();
       let change = 0;
-      
-      if (randomFactor > 0.8) change = Math.floor(Math.random() * 250) + 100; // Big Surge
-      else if (randomFactor < 0.2) change = -(Math.floor(Math.random() * 300) + 50); // Big Drop
-      else change = Math.floor(Math.random() * 21) - 10; // Small Fluctuations
+      if (randomFactor > 0.8) change = Math.floor(Math.random() * 250) + 100;
+      else if (randomFactor < 0.2) change = -(Math.floor(Math.random() * 300) + 50);
+      else change = Math.floor(Math.random() * 21) - 10;
 
       setLiveUsers((prev) => {
         const next = prev + change;
-        return next < 450 ? 510 : next > 2500 ? 2100 : next; // Range: 500 to 2500
+        return next < 450 ? 510 : next > 2500 ? 2100 : next;
       });
     }, 5000);
     return () => clearInterval(interval);
@@ -36,16 +34,27 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
     { label: "Live Real-time", value: liveUsers, icon: <Activity size={20} className="text-emerald-500 animate-pulse" />, isLive: true },
   ];
 
-  // Text Color Constants for High Visibility
   const textColor = isDark ? "text-white" : "text-slate-900";
   const descColor = isDark ? "text-slate-300" : "text-slate-700";
   const mutedColor = isDark ? "text-slate-500" : "text-slate-400";
 
   return (
-    <div className={`w-full transition-colors duration-700 font-sans ${isDark ? "bg-[#0a0a0a]" : "bg-[#fcf8f9]"}`}>
+    <div className={`w-full transition-colors duration-700 font-sans selection:bg-indigo-500 selection:text-white ${isDark ? "bg-[#0a0a0a]" : "bg-[#fcf8f9]"}`}>
       
+      {/* --- FLOATING BACK TO CHAT BUTTON --- */}
+      <motion.button
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        onClick={() => window.location.href = "/dashboard"}
+        className="fixed top-8 right-8 z-[100] flex items-center gap-3 px-6 py-3 rounded-full bg-indigo-600 text-white font-bold shadow-xl shadow-indigo-500/20 hover:bg-indigo-700 transition-all cursor-pointer group"
+      >
+        <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+        <span className="hidden md:inline">Back to Chat</span>
+        <MessageSquare size={18} className="md:hidden" />
+      </motion.button>
+
       {/* --- SECTION 1: HERO --- */}
-      <section className="pt-24 pb-12 px-6 md:px-12 max-w-6xl mx-auto">
+      <section className="pt-32 pb-12 px-6 md:px-12 max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
           <div className="max-w-2xl">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="flex items-center gap-2 mb-6">
@@ -63,7 +72,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
           </motion.div>
         </div>
 
-        {/* --- SECTION 2: STATS (Clear Visibility) --- */}
+        {/* --- SECTION 2: STATS --- */}
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-px overflow-hidden rounded-[40px] border mb-32 shadow-2xl transition-all ${isDark ? "bg-white/10 border-white/20" : "bg-slate-300 border-slate-200"}`}>
           {stats.map((s, i) => (
             <motion.div key={i} className={`p-10 md:p-16 flex flex-col items-center text-center transition-all ${isDark ? "bg-[#0a0a0a] hover:bg-white/[0.03]" : "bg-white hover:bg-slate-50"}`}>
@@ -88,47 +97,147 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
         </div>
       </section>
 
-      {/* --- SECTION 3: LEGAL MODULES --- */}
-      <section className={`py-24 px-6 md:px-12 border-y ${isDark ? "bg-white/[0.02] border-white/10" : "bg-indigo-50/50 border-indigo-100"}`}>
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div>
-            <h3 className={`text-4xl md:text-6xl font-black tracking-tighter mb-8 ${textColor}`}>Deep Legal <br />Analysis.</h3>
-            <p className={`text-[17px] mb-10 font-bold leading-relaxed ${descColor}`}>Lex Pro monitors and analyzes thousands of legal data points to ensure you get the most accurate constitutional guidance.</p>
-            <div className="space-y-4">
-              {[
-                { title: "Constitutional Law", icon: <Shield size={20}/> },
-                { title: "Criminal Code (PPC)", icon: <Gavel size={20}/> },
-                { title: "Civil Procedures (CPC)", icon: <BookOpen size={20}/> }
-              ].map((item, idx) => (
-                <div key={idx} className={`flex items-center gap-5 p-5 rounded-3xl border transition-all hover:translate-x-2 ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-200 shadow-sm"}`}>
-                   <div className="text-indigo-500">{item.icon}</div>
-                   <span className={`font-black text-[15px] uppercase tracking-wide ${textColor}`}>{item.title}</span>
+      {/* --- SECTION 3: LEGAL MODULES & HARDWARE ENGINE --- */}
+<section className={`py-24 px-6 md:px-12 border-y ${isDark ? "bg-white/[0.02] border-white/10" : "bg-indigo-50/50 border-indigo-100"}`}>
+  <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+    <div>
+      <h3 className={`text-4xl md:text-6xl font-black tracking-tighter mb-8 ${textColor}`}>Deep Legal <br />Analysis.</h3>
+      <p className={`text-[17px] mb-10 font-bold leading-relaxed ${descColor}`}>Lex Pro monitors and analyzes thousands of legal data points to ensure you get the most accurate constitutional guidance.</p>
+      <div className="space-y-4">
+        {[
+          { title: "Constitutional Law", icon: <Shield size={20}/> },
+          { title: "Criminal Code (PPC)", icon: <Gavel size={20}/> },
+          { title: "Civil Procedures (CPC)", icon: <BookOpen size={20}/> }
+        ].map((item, idx) => (
+          <div key={idx} className={`flex items-center gap-5 p-5 rounded-3xl border transition-all hover:translate-x-2 ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-200 shadow-sm"}`}>
+              <div className="text-indigo-500">{item.icon}</div>
+              <span className={`font-black text-[15px] uppercase tracking-wide ${textColor}`}>{item.title}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* STILL HARDWARE VISUAL WITH WIRES/CIRCUITS */}
+    <div className={`relative aspect-square rounded-[60px] overflow-hidden border-4 flex items-center justify-center ${isDark ? "bg-[#08090a] border-white/10" : "bg-slate-200 border-indigo-100 shadow-inner"}`}>
+        
+        {/* PCB Motherboard Background (Still Wires) */}
+        <div className="absolute inset-0 opacity-40">
+          <svg width="100%" height="100%" className="absolute inset-0">
+            {/* Horizontal and Vertical "Power Wires" */}
+            <path d="M0 100 H500 M0 200 H500 M0 300 H500 M100 0 V500 M200 0 V500 M300 0 V500" stroke="#4F46E5" strokeWidth="0.5" fill="none" />
+            
+            {/* Angled Wires leading to Chip */}
+            <path d="M50 50 L150 150 M450 50 L350 150 M50 450 L150 350 M450 450 L350 350" stroke="#6366f1" strokeWidth="2" strokeDasharray="5,5" fill="none" />
+            
+            {/* Glowing Connection Nodes */}
+            <circle cx="150" cy="150" r="3" fill="#818cf8" />
+            <circle cx="350" cy="150" r="3" fill="#818cf8" />
+            <circle cx="150" cy="350" r="3" fill="#818cf8" />
+            <circle cx="350" cy="350" r="3" fill="#818cf8" />
+          </svg>
+        </div>
+
+        {/* The Chip Socket (Background behind chip) */}
+        <div className="absolute w-64 h-64 bg-slate-900/50 rounded-[40px] border border-indigo-500/20 shadow-2xl"></div>
+
+        {/* --- CENTRAL SILICON CHIP (STILL) --- */}
+        <div className="relative z-10 w-56 h-56 bg-[#121212] rounded-2xl border-[4px] border-slate-800 flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+          
+          {/* Hardware Pins (Gold/Metallic) */}
+          {[0, 90, 180, 270].map((deg, i) => (
+              <div key={i} className="absolute w-full h-full" style={{ transform: `rotate(${deg}deg)` }}>
+                  <div className="flex justify-around w-full -mt-4 px-6">
+                      {[1, 2, 3, 4, 5].map(p => (
+                          <div key={p} className="w-2 h-5 bg-gradient-to-b from-yellow-600 to-yellow-800 rounded-b-sm border-x border-black/20" />
+                      ))}
+                  </div>
+              </div>
+          ))}
+
+          {/* Chip Heat Spreader (Metallic Cover) */}
+          <div className="w-[88%] h-[88%] bg-gradient-to-br from-[#1e1e1e] to-[#0a0a0a] rounded-xl border border-white/5 p-1 flex items-center justify-center">
+              <div className="w-full h-full rounded-lg bg-[#111] border border-indigo-500/10 flex flex-col items-center justify-center relative overflow-hidden">
+                
+                {/* Still Glow from "Power Wires" underneath */}
+                <div className="absolute inset-0 bg-indigo-500/5 blur-3xl opacity-50"></div>
+
+                {/* Central CPU Icon */}
+                <div className="p-5 rounded-2xl bg-black/40 border border-white/5 relative z-10 shadow-inner">
+                  <Cpu size={56} className="text-indigo-500/80" strokeWidth={1} />
                 </div>
-              ))}
+                
+               
+
+                {/* Light Traces (Still) */}
+                <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100">
+                  <rect x="20" y="20" width="60" height="60" stroke="white" strokeWidth="0.2" fill="none" />
+                  <path d="M0 50 H100 M50 0 V100" stroke="indigo" strokeWidth="0.1" />
+                </svg>
+              </div>
+          </div>
+        </div>
+        {/* --- END CHIP --- */}
+
+        {/* Power Supply "Glow" coming from corners */}
+        <div className="absolute top-0 left-0 w-32 h-32 bg-indigo-600/10 blur-[60px] rounded-full"></div>
+        <div className="absolute bottom-0 right-0 w-32 h-32 bg-indigo-600/10 blur-[60px] rounded-full"></div>
+
+    </div>
+  </div>
+</section>
+
+      {/* --- SECTION 4: AI CORE FEATURES (NEW) --- */}
+      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <h3 className={`text-3xl md:text-5xl font-black tracking-tighter ${textColor}`}>Engineered for Precision.</h3>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { title: "Neural Indexing", desc: "Proprietary vector database for instant case law retrieval.", icon: <Database /> },
+            { title: "Zero-Knowledge", desc: "Your data is encrypted. Even our AI doesn't 'know' your identity.", icon: <Lock /> },
+            { title: "Real-time Sync", desc: "Updated hourly with the latest Supreme Court rulings.", icon: <Zap /> }
+          ].map((feat, i) => (
+            <div key={i} className={`p-8 rounded-[32px] border transition-all group hover:-translate-y-2 ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-200 shadow-xl"}`}>
+              <div className="mb-6 text-indigo-500 group-hover:scale-110 transition-transform">{feat.icon}</div>
+              <h4 className={`text-xl font-black mb-3 ${textColor}`}>{feat.title}</h4>
+              <p className={`text-sm leading-relaxed ${descColor}`}>{feat.desc}</p>
             </div>
-          </div>
-          <div className={`relative aspect-square rounded-[60px] overflow-hidden border-4 p-3 ${isDark ? "bg-white/5 border-white/10" : "bg-white border-indigo-100"}`}>
-             <div className="relative h-full w-full rounded-[45px] bg-black flex flex-col items-center justify-center overflow-hidden shadow-2xl">
-                <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
-                <div className="w-24 h-24 border-8 border-indigo-500 border-t-transparent rounded-full animate-spin mb-6"></div>
-                <span className="text-indigo-500 text-[12px] font-black tracking-[0.6em] uppercase">Lex Neural Engine</span>
-             </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* --- SECTION 4: TRUST BADGES --- */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto text-center">
-        <p className={`text-[12px] font-black uppercase tracking-[0.6em] mb-16 ${mutedColor}`}>Official Legal Technology Partners</p>
-        <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20 opacity-80 transition-all duration-1000">
-            {["SECURE", "ISO CERTIFIED", "COMPLIANT", "GLOBAL"].map((text, i) => (
-               <div key={i} className={`flex items-center gap-3 font-black text-2xl md:text-3xl italic tracking-tighter ${isDark ? "text-white/40 hover:text-indigo-500" : "text-slate-300 hover:text-indigo-600"} transition-colors cursor-default`}>
-                  <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
-                  {text}
-               </div>
-            ))}
-        </div>
-      </section>
+     <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto text-center">
+  <p className={`text-[11px] font-bold uppercase tracking-[0.4em] mb-12 ${mutedColor} opacity-70`}>
+    Official Legal Technology Partners
+  </p>
+  
+  <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8">
+    {[
+      { text: "SECURE", icon: <ShieldCheck size={20} /> },
+      { text: "ISO CERTIFIED", icon: <Award size={20} /> },
+      { text: "COMPLIANT", icon: <Lock size={20} /> },
+      { text: "GLOBAL", icon: <Globe size={20} /> }
+    ].map((badge, i) => (
+      <div 
+        key={i} 
+        className={`
+          group flex items-center gap-3 px-6 py-3 rounded-full border transition-all duration-300 cursor-default
+          ${isDark 
+            ? "bg-white/5 border-white/10 hover:border-indigo-500/50 hover:bg-indigo-500/5 text-white/50 hover:text-white" 
+            : "bg-slate-50 border-slate-200 hover:border-indigo-400 hover:bg-white text-slate-400 hover:text-indigo-700 shadow-sm hover:shadow-md"
+          }
+        `}
+      >
+        <span className={`${isDark ? "text-indigo-400" : "text-indigo-600"} group-hover:scale-110 transition-transform`}>
+          {badge.icon}
+        </span>
+        <span className="text-xs md:text-sm font-black tracking-widest uppercase">
+          {badge.text}
+        </span>
+      </div>
+    ))}
+  </div>
+</section>
 
     </div>
   );
