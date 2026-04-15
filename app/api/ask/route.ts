@@ -48,7 +48,7 @@ function getRelevantContext(query: string, limit: number = 40000): string {
     context += `\n[SOURCE: ${doc.name}]\n${relevantLines.join('\n')}\n`;
   });
 
-  // Fallback to head 
+  
   if (context.length < 500) {
     context = legalDatabase.map(d => d.content.substring(0, 15000)).join('\n');
   }
