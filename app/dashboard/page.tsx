@@ -249,7 +249,7 @@ export default function LexProFinal() {
       className={`h-[100dvh] w-full transition-all duration-700 flex flex-col font-sans overflow-hidden relative ${
         isDark
           ? "bg-[#0a0a0a] text-white"
-          : "bg-gradient-to-br from-[#e6e6f7] to-[#ffeefb] text-slate-900"
+          : "bg-gradient-to-br from-[#e9e9ff] to-[#fde3f7] text-slate-900"
       }`}
     >
       {/* 1. Floating Side Logo */}
