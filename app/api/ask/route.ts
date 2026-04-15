@@ -10,7 +10,7 @@ let legalDatabase: { name: string, content: string }[] = [];
 
 
 async function loadLegalDatabase() {
-  if (legalDatabase.length > 0) return; // Prevent re-loading
+  if (legalDatabase.length > 0) return; 
 
   const dataDir = path.join(process.cwd(), 'data');
   const files = [
