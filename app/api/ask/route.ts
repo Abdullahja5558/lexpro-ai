@@ -31,7 +31,7 @@ async function loadLegalDatabase() {
 }
 
 /**
- * Utility: Extract relevant sections based on query keywords
+ 
  
  */
 function getRelevantContext(query: string, limit: number = 40000): string {
