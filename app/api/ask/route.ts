@@ -32,7 +32,7 @@ async function loadLegalDatabase() {
 
 /**
  * Utility: Extract relevant sections based on query keywords
- * (Simulates a mini-RAG system without a vector DB)
+ 
  */
 function getRelevantContext(query: string, limit: number = 40000): string {
   const keywords = query.toLowerCase().split(' ').filter(w => w.length > 3);
