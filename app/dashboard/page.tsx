@@ -318,7 +318,7 @@ export default function LexProFinal() {
               </motion.div>
 
               <h1
-                className={`text-3xl md:text-6xl font-bold tracking-tight mb-2 md:mb-2 ${isDark ? "text-white" : "text-[#1a1a1a]"}`}
+                className={`text-3xl md:text-5xl font-bold tracking-tight mb-2 md:mb-2 ${isDark ? "text-white" : "text-[#1a1a1a]"}`}
               >
                 Hi, there! 👋🏻
               </h1>
