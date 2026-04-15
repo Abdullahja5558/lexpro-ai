@@ -5,7 +5,7 @@ import path from 'path';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Global Cache for Legal Data
+
 let legalDatabase: { name: string, content: string }[] = [];
 
 /**
