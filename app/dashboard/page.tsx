@@ -197,7 +197,7 @@ export default function LexProFinal() {
   <motion.div 
     initial={{ rotate: -10, scale: 0.8 }} 
     animate={{ rotate: 0, scale: 1 }} 
-    className={`w-12 h-12 md:w-16 md:h-16 rounded-[22px] md:rounded-[28px] flex items-center justify-center shadow-2xl mb-6 md:mb-8 transition-all ${isDark ? "bg-white text-black" : "bg-[#1a1a1a] text-white"}`}
+    className={`w-12 h-12 md:w-16 md:h-16 rounded-[22px] md:rounded-[28px] flex items-center justify-center shadow-2xl mb-6 md:mb-3 transition-all ${isDark ? "bg-white text-black" : "bg-[#1a1a1a] text-white"}`}
   >
     <Sparkles size={28} />
   </motion.div>
