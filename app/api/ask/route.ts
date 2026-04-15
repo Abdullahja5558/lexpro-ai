@@ -30,10 +30,10 @@ async function loadLegalDatabase() {
   }
 }
 
-/**
+
  
  
- */
+
 function getRelevantContext(query: string, limit: number = 40000): string {
   const keywords = query.toLowerCase().split(' ').filter(w => w.length > 3);
   let context = "";
