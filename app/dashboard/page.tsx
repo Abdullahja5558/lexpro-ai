@@ -254,7 +254,8 @@ export default function LexProFinal() {
         </AnimatePresence>
       </main>
 
-      <footer className="w-full pb-6 md:pb-12 flex flex-col items-center z-[80] px-4 md:px-6 relative shrink-0">
+     
+<footer className="w-full pb-2 md:pb-6 flex flex-col items-center z-[80] px-4 md:px-6 relative shrink-0">
         <AnimatePresence>
           {messages.length === 0 && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, height: 0, marginBottom: 0, overflow: 'hidden' }} className="w-full max-w-4xl relative mb-4 md:mb-8">
