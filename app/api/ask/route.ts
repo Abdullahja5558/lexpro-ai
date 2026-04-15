@@ -8,9 +8,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 let legalDatabase: { name: string, content: string }[] = [];
 
-/**
- * Enhanced Data Loader: Loads files into structured memory
- */
+
 async function loadLegalDatabase() {
   if (legalDatabase.length > 0) return; // Prevent re-loading
 
