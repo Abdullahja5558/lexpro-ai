@@ -1,22 +1,24 @@
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 import fs from "fs/promises";
 import path from "path";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const API_KEY = process.env.GEMINI_API_KEY || "AQ.Ab8RN6KM_ryxaORymuxPiP3gMsYkHVkNoQyhdo0B2-F0_p5gdg";
+
+const client = new GoogleGenAI({
+  apiKey: API_KEY
+});
 
 let legalDatabase: { name: string; content: string }[] = [];
 
 async function loadLegalDatabase() {
   if (legalDatabase.length > 0) return;
-
   const dataDir = path.join(process.cwd(), "data");
-
   const files = [
     { name: "Constitution of Pakistan", path: "law.txt" },
     { name: "Pakistan Penal Code (PPC)", path: "ppc.txt" },
     { name: "Code of Criminal Procedure (CrPC)", path: "cpc.txt" },
-    { name: "Qanun-e-Shahadat Order (QSO), 1984", path: "QS.txt" },
+    { name: "Qanun-e-Shahadat Order (QSO)", path: "QS.txt" },
   ];
 
   for (const file of files) {
@@ -25,111 +27,74 @@ async function loadLegalDatabase() {
       const content = await fs.readFile(fullPath, "utf8");
       legalDatabase.push({ name: file.name, content });
     } catch (err) {
-      console.warn(`Could not load ${file.name}`);
+      console.warn(`File missing: ${file.name}`);
     }
   }
 }
 
-function getRelevantContext(query: string, limit = 35000) {
-  const keywords = query
-    .toLowerCase()
-    .split(" ")
-    .filter((w) => w.length > 3);
-
+function getRelevantContext(query: string) {
+  const keywords = query.toLowerCase().split(" ").filter(w => w.length > 3);
   let context = "";
-
   for (const doc of legalDatabase) {
     const lines = doc.content.split("\n");
-
-    const relevantLines = lines
-      .filter((line) =>
-        keywords.some((key) => line.toLowerCase().includes(key))
-      )
-      .slice(0, 80);
-
-    if (relevantLines.length > 0) {
-      context += `\n=== ${doc.name} ===\n${relevantLines.join("\n")}\n`;
+    const matches = lines
+      .filter(line => keywords.some(k => line.toLowerCase().includes(k)))
+      .slice(0, 25);
+    if (matches.length > 0) {
+      context += `\n--- SOURCE: ${doc.name} ---\n${matches.join("\n")}\n`;
     }
   }
-
-  if (context.length < 500) {
-    context = legalDatabase
-      .map((d) => `=== ${d.name} ===\n${d.content.slice(0, 8000)}`)
-      .join("\n\n");
-  }
-
-  return context.slice(0, limit);
+  return context.slice(0, 5000);
 }
 
 export async function POST(req: Request) {
   try {
     await loadLegalDatabase();
+    const { query } = await req.json();
 
-    const { query, language = "English" } = await req.json();
-
-    if (!query) {
-      return NextResponse.json(
-        { error: "Query is required" },
-        { status: 400 }
-      );
-    }
+    if (!query) return NextResponse.json({ error: "Query missing" }, { status: 400 });
 
     const context = getRelevantContext(query);
-
+    
+    // Prompt logic for both Legal and Casual talk
     const systemPrompt = `
-You are "Lex Pro AI", a professional legal assistant for Pakistan law.
+      You are "Lex Pro AI", a premium legal intelligence assistant for Pakistan.
+      
+      PERSONALITY:
+      - If the user says "Hi", "Hello", "How are you?", or casual talk, respond politely as a professional legal expert.
+      - Example: "I am Lex Pro AI, your legal consultant. How can I assist you with Pakistani law today? "
+      
+      LEGAL RULES:
+      - If the user asks a legal question, use the Context: ${context || "General Law Knowledge"}.
+      - Respond in the user's language (Urdu, Roman Urdu, or English).
+      - Use these EXACT bold headings with middle dots for legal answers:
+        • Legal Explanation
+        • Relevant Law (Sections/Articles)
+        • Legal Analysis
+        • Example
+        • Conclusion
+      - Start legal answers with: "According to Pakistani Law..."
+      
+      User Query: ${query}
+    `;
 
-🚨 RESPONSE RULES (VERY IMPORTANT):
-1. Always give detailed answers (not short).
-2. Always structure answer in clear headings.
-3. Always explain step by step.
-4. Always include real legal references from context.
-5. Always include examples (very important).
-6. Always start explanations with:
-   "According to Pakistani Law..."
-7. If user language is Urdu, respond fully in Urdu (legal Urdu style).
-8. If English, use simple professional legal English.
-9. If question is complex, break into sections.
-
-📌 REQUIRED FORMAT:
-
-• 1. Legal Explanation
-• 2. Relevant Law (PPC / CrPC / Constitution / QSO)
-• 3. Legal Analysis
-• 4. Example Case / Scenario
-• 5. Final Conclusion
-
-📚 LEGAL DATABASE CONTEXT:
-${context}
-`;
-
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o",
-      temperature: 0.2,
-      messages: [
-        {
-          role: "system",
-          content: systemPrompt,
-        },
-        {
-          role: "user",
-          content: query,
-        },
-      ],
+    const response = await client.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: [{
+        role: "user",
+        parts: [{ text: systemPrompt }]
+      }]
     });
+
+    const answerText = response?.text || "I apologize, I'm having trouble processing that right now.";
 
     return NextResponse.json({
-      answer: response.choices[0].message.content,
-      metadata: {
-        engine: "Lex Pro AI - Enhanced Legal Reasoning",
-        language_used: language,
-        docs_used: legalDatabase.map((d) => d.name),
-      },
+      answer: answerText,
+      metadata: { engine: "Gemini 3 Flash Turbo" }
     });
+
   } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Server error" },
-      { status: 500 }
-    );
+    console.error("❌ Lex Pro API Error:", error.message);
+    return NextResponse.json({ error: "Connection failed" }, { status: 500 });
   }
 }
