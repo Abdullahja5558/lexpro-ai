@@ -3,7 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 import fs from "fs/promises";
 import path from "path";
 
-// .env.local se key load ho rahi hai
+
 const API_KEY = process.env.GEMINI_API_KEY;
 
 if (!API_KEY) {
