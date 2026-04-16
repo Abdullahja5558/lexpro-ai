@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-// --- Sub-Components ---
+
 
 const Typewriter = ({ text, speed = 10 }: { text: string; speed?: number }) => {
   const [displayedText, setDisplayedText] = useState("");
