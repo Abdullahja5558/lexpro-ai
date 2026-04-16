@@ -3,10 +3,15 @@ import { GoogleGenAI } from "@google/genai";
 import fs from "fs/promises";
 import path from "path";
 
-const API_KEY = process.env.GEMINI_API_KEY || "AQ.Ab8RN6KM_ryxaORymuxPiP3gMsYkHVkNoQyhdo0B2-F0_p5gdg";
+// .env.local se key load ho rahi hai
+const API_KEY = process.env.GEMINI_API_KEY;
+
+if (!API_KEY) {
+  console.error("❌ ERROR: GEMINI_API_KEY is missing in .env.local");
+}
 
 const client = new GoogleGenAI({
-  apiKey: API_KEY
+  apiKey: API_KEY || ""
 });
 
 let legalDatabase: { name: string; content: string }[] = [];
@@ -49,6 +54,10 @@ function getRelevantContext(query: string) {
 
 export async function POST(req: Request) {
   try {
+    if (!API_KEY) {
+      return NextResponse.json({ error: "API Key missing" }, { status: 500 });
+    }
+
     await loadLegalDatabase();
     const { query } = await req.json();
 
@@ -56,25 +65,28 @@ export async function POST(req: Request) {
 
     const context = getRelevantContext(query);
     
-    // Prompt logic for both Legal and Casual talk
+    // Strict instructions to prevent extra stars/wrapping
     const systemPrompt = `
-      You are "Lex Pro AI", a premium legal intelligence assistant for Pakistan.
+      You are "Lex Pro AI", a premium legal assistant for Pakistan Law.
       
       PERSONALITY:
-      - If the user says "Hi", "Hello", "How are you?", or casual talk, respond politely as a professional legal expert.
-      - Example: "I am Lex Pro AI, your legal consultant. How can I assist you with Pakistani law today? "
+      - For casual greetings (Hi, Hello, How are you), respond as a polite professional.
       
-      LEGAL RULES:
-      - If the user asks a legal question, use the Context: ${context || "General Law Knowledge"}.
-      - Respond in the user's language (Urdu, Roman Urdu, or English).
-      - Use these EXACT bold headings with middle dots for legal answers:
+      LEGAL RESPONSE RULES:
+      - If answering a legal query, use the Context: ${context || "General Pakistan Law knowledge"}.
+      - Respond in the user's language.
+      - Start legal answers with: "According to Pakistani Law..."
+      
+      FORMATTING RULES (STRICT):
+      - DO NOT wrap headings in extra symbols or excessive stars.
+      - Use ONLY one middle dot (•) at the start and the end of each heading.
+      - Use these EXACT headings:
         • Legal Explanation
         • Relevant Law (Sections/Articles)
         • Legal Analysis
         • Example
         • Conclusion
-      - Start legal answers with: "According to Pakistani Law..."
-      
+
       User Query: ${query}
     `;
 
@@ -86,15 +98,16 @@ export async function POST(req: Request) {
       }]
     });
 
-    const answerText = response?.text || "I apologize, I'm having trouble processing that right now.";
-
+    // Final cleanup to ensure no weird wrapping symbols
+    let answerText = response?.text || "I apologize, I cannot process this request right now.";
+    
     return NextResponse.json({
       answer: answerText,
       metadata: { engine: "Gemini 3 Flash Turbo" }
     });
 
   } catch (error: any) {
-    console.error("❌ Lex Pro API Error:", error.message);
+    console.error("❌ API Error:", error.message);
     return NextResponse.json({ error: "Connection failed" }, { status: 500 });
   }
 }
