@@ -98,7 +98,7 @@ export async function POST(req: Request) {
       }]
     });
 
-    // Final cleanup to ensure no weird wrapping symbols
+    // Final cleanup to ensure no weird wrapping 
     let answerText = response?.text || "I apologize, I cannot process this request right now.";
     
     return NextResponse.json({
