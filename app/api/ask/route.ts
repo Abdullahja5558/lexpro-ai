@@ -65,7 +65,7 @@ export async function POST(req: Request) {
 
     const context = getRelevantContext(query);
     
-    // Strict instructions to prevent
+    // Strict instructions 
     const systemPrompt = `
       You are "Lex Pro AI", a premium legal assistant for Pakistan Law.
       
