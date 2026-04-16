@@ -3,7 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 import fs from "fs/promises";
 import path from "path";
 
-
+// Environment variable se key load karna sab se safe hai
 const API_KEY = process.env.GEMINI_API_KEY;
 
 if (!API_KEY) {
@@ -55,7 +55,7 @@ function getRelevantContext(query: string) {
 export async function POST(req: Request) {
   try {
     if (!API_KEY) {
-      return NextResponse.json({ error: "API Key missing" }, { status: 500 });
+      return NextResponse.json({ error: "API Key missing in server" }, { status: 500 });
     }
 
     await loadLegalDatabase();
@@ -65,31 +65,30 @@ export async function POST(req: Request) {
 
     const context = getRelevantContext(query);
     
-     
     const systemPrompt = `
       You are "Lex Pro AI", a premium legal assistant for Pakistan Law.
       
       PERSONALITY:
-      - For casual greetings (Hi, Hello, How are you), respond as a polite professional.
+      - For casual greetings (Hi, Hello, How are you), respond as a polite professional and introduce yourself briefly.
       
       LEGAL RESPONSE RULES:
       - If answering a legal query, use the Context: ${context || "General Pakistan Law knowledge"}.
-      - Respond in the user's language.
+      - Detect user language and respond accordingly.
       - Start legal answers with: "According to Pakistani Law..."
       
       FORMATTING RULES (STRICT):
-      - DO NOT wrap headings in extra symbols or excessive stars.
-      - Use ONLY one middle dot (•) at the start and the end of each heading.
+      - Use ONLY one middle dot (•) at the START and one at the END of each heading.
       - Use these EXACT headings:
-        • Legal Explanation
-        • Relevant Law (Sections/Articles)
-        • Legal Analysis
-        • Example
-        • Conclusion
+        • Legal Explanation •
+        • Relevant Law (Sections/Articles) •
+        • Legal Analysis •
+        • Example •
+        • Conclusion •
 
       User Query: ${query}
     `;
 
+    // Gemini 3 Flash Preview - FASTEST model
     const response = await client.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: [{
@@ -98,7 +97,6 @@ export async function POST(req: Request) {
       }]
     });
 
-    
     let answerText = response?.text || "I apologize, I cannot process this request right now.";
     
     return NextResponse.json({
