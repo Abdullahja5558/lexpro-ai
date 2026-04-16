@@ -252,7 +252,7 @@ export default function LexProFinal() {
           : "bg-gradient-to-br from-[#e9e9ff] to-[#fde3f7] text-slate-900"
       }`}
     >
-      {/* 1. Floating Side Logo */}
+    
       <div className="fixed top-6 left-6 md:top-10 md:left-10 flex items-center gap-3 z-[100] pointer-events-none">
         <div
           className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shadow-lg transition-all ${
