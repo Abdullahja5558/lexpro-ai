@@ -74,7 +74,7 @@ const PromptCard = ({ p, isDark, onClick }: any) => (
   </motion.div>
 );
 
-// --- Constants ---
+
 const initialPrompts = [
   {
     title: "Article 199",
