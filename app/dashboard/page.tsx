@@ -270,7 +270,7 @@ export default function LexProFinal() {
         </span>
       </div>
 
-      {/* --- PREMIUM ABOUT BUTTON --- */}
+      
       <button
         onClick={() => router.push("/about")}
         className="fixed top-6 right-6 md:top-10 md:right-10 flex items-center gap-2 z-[100] group active:scale-95 transition-all cursor-pointer pointer-events-auto"
