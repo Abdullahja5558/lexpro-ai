@@ -140,9 +140,11 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
               ))}
             </div>
           </div>
-
+          
           <div className={`relative aspect-square rounded-[60px] overflow-hidden border-4 flex items-center justify-center ${isDark ? "bg-[#08090a] border-white/10" : "bg-slate-200 border-indigo-100 shadow-inner"}`}>
-              <div className="absolute inset-0 opacity-40">
+          
+              <div className="absolute inset-0 ">
+                <img  className="w-full h-full object-cover" src="chip.png" alt="" />
                 <svg width="100%" height="100%" className="absolute inset-0">
                   <path d="M0 100 H500 M0 200 H500 M0 300 H500 M100 0 V500 M200 0 V500 M300 0 V500" stroke="#4F46E5" strokeWidth="0.5" fill="none" />
                   <path d="M50 50 L150 150 M450 50 L350 150 M50 450 L150 350 M450 450 L350 350" stroke="#6366f1" strokeWidth="2" strokeDasharray="5,5" fill="none" />
