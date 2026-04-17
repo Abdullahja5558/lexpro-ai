@@ -10,9 +10,9 @@ import {
 } from "lucide-react";
 
 export default function AboutSection({ isDark }: { isDark: boolean }) {
-  // --- LOGIC FOR PERSISTENT INCREASING NUMBERS ---
+  
   // We use a fixed past date to calculate "elapsed" time so numbers never reset.
-  const START_DATE = new Date("2026-04-16").getTime(); 
+  const START_DATE = new Date("2026-04-17").getTime(); 
   
   const [statsValues, setStatsValues] = useState({
     community: 120,
