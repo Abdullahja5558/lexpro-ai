@@ -125,7 +125,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
       <section className={`py-24 px-6 md:px-12 border-y ${isDark ? "bg-white/[0.02] border-white/10" : "bg-indigo-50/50 border-indigo-100"}`}>
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <div>
-            <h3 className={`text-4xl md:text-6xl font-black tracking-tighter mb-8 ${textColor}`}>Deep Legal <br />Analysis.</h3>
+            <h3 className={`text-4xl md:text-6xl font-black tracking-tighter mb-8 ${textColor}`}>LEXPRO AI <br />ENGINE</h3>
             <p className={`text-[17px] mb-10 font-bold leading-relaxed ${descColor}`}>Lex Pro monitors and analyzes thousands of legal data points to ensure you get the most accurate constitutional guidance.</p>
             <div className="space-y-4">
               {[

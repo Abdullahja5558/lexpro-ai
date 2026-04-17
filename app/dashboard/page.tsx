@@ -26,8 +26,6 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-
-
 const Typewriter = ({ text, speed = 10 }: { text: string; speed?: number }) => {
   const [displayedText, setDisplayedText] = useState("");
   useEffect(() => {
@@ -74,25 +72,27 @@ const PromptCard = ({ p, isDark, onClick }: any) => (
   </motion.div>
 );
 
-
 const initialPrompts = [
   {
     title: "Article 199",
     desc: "High Court's Writ Jurisdiction.",
     icon: <Gavel size={18} />,
-    query: "Explain the scope of Writ Jurisdiction under Article 199 of the Constitution of Pakistan.",
+    query:
+      "Explain the scope of Writ Jurisdiction under Article 199 of the Constitution of Pakistan.",
   },
   {
     title: "Article 3 (QSO)",
     desc: "Competency of Witness.",
     icon: <FileText size={18} />,
-    query: "Who is a competent witness according to Article 3 of Qanun-e-Shahadat Order 1984?",
+    query:
+      "Who is a competent witness according to Article 3 of Qanun-e-Shahadat Order 1984?",
   },
   {
     title: "Bail (CrPC 497)",
     desc: "Procedure for Grant of Bail.",
     icon: <Scale size={18} />,
-    query: "Explain the law and procedure for the grant of bail in bailable and non-bailable offences under Section 497 of CrPC.",
+    query:
+      "Explain the law and procedure for the grant of bail in bailable and non-bailable offences under Section 497 of CrPC.",
   },
 ];
 
@@ -101,37 +101,43 @@ const extraPrompts = [
     title: "PPC Section 302",
     desc: "Punishment for Qatl-i-Amd.",
     icon: <ShieldCheck size={18} />,
-    query: "What are the essential ingredients and punishments under PPC Section 302?",
+    query:
+      "What are the essential ingredients and punishments under PPC Section 302?",
   },
   {
     title: "Article 163 (QSO)",
     desc: "Deciding case on Oath.",
     icon: <BookOpen size={18} />,
-    query: "What is the procedure and importance of Article 163 of QSO regarding decision on the basis of Oath?",
+    query:
+      "What is the procedure and importance of Article 163 of QSO regarding decision on the basis of Oath?",
   },
   {
     title: "Dying Declaration",
     desc: "Article 46(1) QSO.",
     icon: <FileText size={18} />,
-    query: "What is a Dying Declaration and its evidentiary value under Article 46(1) of Qanun-e-Shahadat Order?",
+    query:
+      "What is a Dying Declaration and its evidentiary value under Article 46(1) of Qanun-e-Shahadat Order?",
   },
   {
     title: "Identification Parade",
     desc: "Article 22 QSO.",
     icon: <ShieldCheck size={18} />,
-    query: "Explain the concept and legal requirements of Identification Parade under Article 22 of QSO.",
+    query:
+      "Explain the concept and legal requirements of Identification Parade under Article 22 of QSO.",
   },
   {
     title: "CrPC Section 154",
     desc: "Registration of FIR procedure.",
     icon: <BookOpen size={18} />,
-    query: "What is the legal procedure for lodging an FIR under Section 154 of CrPC?",
+    query:
+      "What is the legal procedure for lodging an FIR under Section 154 of CrPC?",
   },
   {
     title: "Article 184(3)",
     desc: "Supreme Court's Suo Moto.",
     icon: <Gavel size={18} />,
-    query: "Discuss the Suo Moto jurisdiction of the Supreme Court under Article 184(3).",
+    query:
+      "Discuss the Suo Moto jurisdiction of the Supreme Court under Article 184(3).",
   },
 ];
 
@@ -161,7 +167,8 @@ export default function LexProFinal() {
 
   useEffect(() => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   }, [messages, loading]);
 
@@ -191,7 +198,10 @@ export default function LexProFinal() {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
       setLoading(false);
-      const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      const time = new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
       setMessages((prev) => [
         ...prev,
         {
@@ -207,7 +217,10 @@ export default function LexProFinal() {
   const handleAsk = async (forcedQuery?: string) => {
     const activeQuery = forcedQuery || query;
     if (loading || !activeQuery.trim()) return;
-    const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const time = new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
     setMessages((prev) => [...prev, { role: "user", text: activeQuery, time }]);
     setLoading(true);
     setQuery("");
@@ -252,7 +265,6 @@ export default function LexProFinal() {
           : "bg-linear-to-br from-[#cfcfff] to-[#fdebfa] text-slate-900"
       }`}
     >
-    
       <div className="fixed top-6 left-6 md:top-10 md:left-10 flex items-center gap-3 z-100 pointer-events-none">
         <div
           className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shadow-lg transition-all ${
@@ -270,7 +282,6 @@ export default function LexProFinal() {
         </span>
       </div>
 
-      
       <button
         onClick={() => router.push("/about")}
         className="fixed top-6 right-6 md:top-10 md:right-10 flex items-center gap-2 z-100 group active:scale-95 transition-all cursor-pointer pointer-events-auto"
@@ -327,7 +338,9 @@ export default function LexProFinal() {
 
               <div
                 className={`max-w-xs md:max-w-xl mx-auto p-4 md:p-5 rounded-2xl md:rounded-3xl border transition-all ${
-                  isDark ? "bg-white/5 border-white/10" : "bg-white/30 border-white/40 shadow-sm"
+                  isDark
+                    ? "bg-white/5 border-white/10"
+                    : "bg-white/30 border-white/40 shadow-sm"
                 }`}
               >
                 <p
@@ -336,14 +349,18 @@ export default function LexProFinal() {
                   }`}
                 >
                   Explore{" "}
-                  <span className="text-indigo-600 font-bold uppercase">Pakistan's Legal System</span>.
-                  Ask about{" "}
+                  <span className="text-indigo-600 font-bold uppercase">
+                    Pakistan's Legal System
+                  </span>
+                  . Ask about{" "}
                   <span className={isDark ? "text-white" : "text-slate-800"}>
                     PPC, QSO, CrPC, QANUN-E-SHAHADAT{" "}
                   </span>{" "}
                   or the{" "}
-                  <span className={isDark ? "text-white" : "text-slate-800"}>Constitution</span>.
-                  Running in{" "}
+                  <span className={isDark ? "text-white" : "text-slate-800"}>
+                    Constitution
+                  </span>
+                  . Running in{" "}
                   <span className="inline-flex items-center gap-1 bg-indigo-500 text-white px-2 py-0.5 rounded-full text-[10px] md:text-[12px] font-black">
                     {mode} Mode
                   </span>
@@ -371,8 +388,8 @@ export default function LexProFinal() {
                             ? "bg-white border-white text-black"
                             : "bg-[#1a1a1a] border-black text-white"
                           : isDark
-                          ? "bg-[#1a1a1a] border-slate-800 text-white"
-                          : "bg-white/60 border-white text-slate-700"
+                            ? "bg-[#1a1a1a] border-slate-800 text-white"
+                            : "bg-white/60 border-white text-slate-700"
                       }`}
                     >
                       {m.isStopped ? (
@@ -392,15 +409,17 @@ export default function LexProFinal() {
                             ? "bg-white text-black rounded-tr-none"
                             : "bg-[#1a1a1a] text-white rounded-tr-none"
                           : isDark
-                          ? "bg-[#1a1a1a] border border-slate-800 text-slate-200 rounded-tl-none"
-                          : "bg-white/70 backdrop-blur-md border border-white text-slate-700 rounded-tl-none"
+                            ? "bg-[#1a1a1a] border border-slate-800 text-slate-200 rounded-tl-none"
+                            : "bg-white/70 backdrop-blur-md border border-white text-slate-700 rounded-tl-none"
                       } ${m.isStopped ? "border-red-500/50 italic opacity-80" : ""}`}
                     >
                       {m.role === "ai" && !m.isStopped && (
                         <button
                           onClick={() => copyToClipboard(m.text, i)}
                           className={`absolute top-2 right-2 p-1.5 rounded-lg transition-all opacity-0 md:group-hover:opacity-100 ${
-                            isDark ? "bg-white/10 text-white hover:bg-white/20" : "bg-slate-200/50 text-slate-600 hover:bg-slate-200"
+                            isDark
+                              ? "bg-white/10 text-white hover:bg-white/20"
+                              : "bg-slate-200/50 text-slate-600 hover:bg-slate-200"
                           }`}
                         >
                           {copiedId === i ? (
@@ -424,7 +443,8 @@ export default function LexProFinal() {
               ))}
               {loading && (
                 <div className="flex items-center gap-3 text-[9px] md:text-[11px] font-black text-indigo-600 uppercase tracking-widest ml-11 md:ml-14">
-                  <Loader2 size={14} className="animate-spin" /> Analyzing Law...
+                  <Loader2 size={14} className="animate-spin" /> Analyzing
+                  Law...
                 </div>
               )}
             </motion.div>
@@ -448,13 +468,20 @@ export default function LexProFinal() {
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
                 {prompts.map((p, i) => (
-                  <PromptCard key={i} p={p} isDark={isDark} onClick={() => handleAsk(p.query)} />
+                  <PromptCard
+                    key={i}
+                    p={p}
+                    isDark={isDark}
+                    onClick={() => handleAsk(p.query)}
+                  />
                 ))}
               </div>
               <button
                 onClick={handleRefreshPrompts}
                 className={`absolute -right-2 -top-4 md:top-1/2 md:-translate-y-1/2 w-9 h-9 md:w-11 md:h-11 border shadow-xl rounded-full flex items-center justify-center active:scale-90 transition-all z-90 ${
-                  isDark ? "bg-[#1a1a1a] border-slate-800 text-white" : "bg-white/80 border-white text-slate-600"
+                  isDark
+                    ? "bg-[#1a1a1a] border-slate-800 text-white"
+                    : "bg-white/80 border-white text-slate-600"
                 }`}
               >
                 <RefreshCw size={16} />
@@ -465,7 +492,9 @@ export default function LexProFinal() {
 
         <div
           className={`w-full max-w-3xl backdrop-blur-3xl border rounded-[25px] md:rounded-[35px] shadow-2xl flex items-center p-1.5 md:p-2 transition-all relative ${
-            isDark ? "bg-black/60 border-white/10" : "bg-white/40 border-white/60"
+            isDark
+              ? "bg-black/60 border-white/10"
+              : "bg-white/40 border-white/60"
           }`}
         >
           <div className="relative">
@@ -475,12 +504,18 @@ export default function LexProFinal() {
                 setIsSettingsOpen(!isSettingsOpen);
               }}
               className={`p-3 md:p-4 transition-colors ${
-                isDark ? "text-slate-400 hover:text-white" : "text-slate-400 hover:text-black"
+                isDark
+                  ? "text-slate-400 hover:text-white"
+                  : "text-slate-400 hover:text-black"
               }`}
             >
               <Settings
                 size={18}
-                className={isSettingsOpen ? "rotate-90 transition-transform" : "transition-transform"}
+                className={
+                  isSettingsOpen
+                    ? "rotate-90 transition-transform"
+                    : "transition-transform"
+                }
               />
             </button>
             <AnimatePresence>
@@ -490,7 +525,9 @@ export default function LexProFinal() {
                   animate={{ opacity: 1, y: -12, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   className={`absolute bottom-full left-0 mb-2 w-44 md:w-48 p-2 rounded-[20px] shadow-2xl border backdrop-blur-3xl z-110 transition-all ${
-                    isDark ? "bg-black/80 border-white/10" : "bg-white/90 border-slate-100"
+                    isDark
+                      ? "bg-black/80 border-white/10"
+                      : "bg-white/90 border-slate-100"
                   }`}
                 >
                   <div className="space-y-1">
@@ -498,7 +535,9 @@ export default function LexProFinal() {
                       <button
                         onClick={() => toggleTheme("light")}
                         className={`flex-1 flex items-center justify-center py-1.5 rounded-lg transition-all ${
-                          !isDark ? "bg-white shadow-sm text-black" : "text-slate-400"
+                          !isDark
+                            ? "bg-white shadow-sm text-black"
+                            : "text-slate-400"
                         }`}
                       >
                         <Sun size={13} />
@@ -506,7 +545,9 @@ export default function LexProFinal() {
                       <button
                         onClick={() => toggleTheme("dark")}
                         className={`flex-1 flex items-center justify-center py-1.5 rounded-lg transition-all ${
-                          isDark ? "bg-white shadow-sm text-black" : "text-slate-400"
+                          isDark
+                            ? "bg-white shadow-sm text-black"
+                            : "text-slate-400"
                         }`}
                       >
                         <Moon size={13} />
@@ -527,13 +568,15 @@ export default function LexProFinal() {
                           mode === m.id
                             ? "bg-indigo-500 text-white"
                             : isDark
-                            ? "text-slate-300 hover:bg-white/5"
-                            : "text-slate-700 hover:bg-slate-50"
+                              ? "text-slate-300 hover:bg-white/5"
+                              : "text-slate-700 hover:bg-slate-50"
                         }`}
                       >
                         <div className="flex items-center gap-2">
                           {m.icon}{" "}
-                          <span className="text-[11px] md:text-[12px] font-bold">{m.id}</span>
+                          <span className="text-[11px] md:text-[12px] font-bold">
+                            {m.id}
+                          </span>
                         </div>
                         {mode === m.id && <Check size={11} />}
                       </button>
@@ -549,7 +592,9 @@ export default function LexProFinal() {
             onKeyDown={(e) => e.key === "Enter" && handleAsk()}
             placeholder="Ask Lex Pro..."
             className={`flex-1 bg-transparent px-2 md:px-4 outline-none text-[14px] md:text-[16px] font-semibold transition-colors ${
-              isDark ? "text-white placeholder:text-slate-600" : "text-slate-800 placeholder:text-slate-400"
+              isDark
+                ? "text-white placeholder:text-slate-600"
+                : "text-slate-800 placeholder:text-slate-400"
             }`}
           />
           <div className="flex items-center gap-1 md:gap-2 pr-1 md:pr-2">
@@ -559,7 +604,10 @@ export default function LexProFinal() {
               className={`h-10 md:h-12 transition-all active:scale-95 shadow-lg flex items-center justify-center gap-2 rounded-full ${
                 loading
                   ? "w-10 md:w-12 px-0 bg-red-500 text-white hover:bg-red-600"
-                  : "px-4 md:px-8 " + (isDark ? "bg-white text-black hover:bg-slate-200" : "bg-[#1a1a1a] text-white hover:bg-black")
+                  : "px-4 md:px-8 " +
+                    (isDark
+                      ? "bg-white text-black hover:bg-slate-200"
+                      : "bg-[#1a1a1a] text-white hover:bg-black")
               } disabled:opacity-20`}
             >
               {loading ? (
@@ -567,7 +615,11 @@ export default function LexProFinal() {
               ) : (
                 <Send size={16} className="-rotate-45" />
               )}
-              {!loading && <span className="hidden md:inline text-[14px] font-bold">Send</span>}
+              {!loading && (
+                <span className="hidden md:inline text-[14px] font-bold">
+                  Send
+                </span>
+              )}
             </button>
           </div>
         </div>
