@@ -3,7 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 import fs from "fs/promises";
 import path from "path";
 
-// Environment variable se key load karna sab se safe hai
+// Environment variable se key 
 const API_KEY = process.env.GEMINI_API_KEY;
 
 if (!API_KEY) {
