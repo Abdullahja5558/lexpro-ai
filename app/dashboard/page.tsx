@@ -196,7 +196,7 @@ export default function LexProFinal() {
         ...prev,
         {
           role: "ai",
-          text: " You stopped the generation.",
+          text: "⚠️ You stopped the request. Please try again.",
           time,
           isStopped: true,
         },
