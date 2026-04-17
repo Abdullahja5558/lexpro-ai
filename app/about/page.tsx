@@ -163,7 +163,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
                         </div>
                     </div>
                 ))}
-                <div className="w-[88%] h-[88%] bg-gradient-to-br from-[#1e1e1e] to-[#0a0a0a] rounded-xl border border-white/5 p-1 flex items-center justify-center">
+                <div className="w-[88%] h-[88%] bg-linear-to-br from-[#1e1e1e] to-[#0a0a0a] rounded-xl border border-white/5 p-1 flex items-center justify-center">
                     <div className="w-full h-full rounded-lg bg-[#111] border border-indigo-500/10 flex flex-col items-center justify-center relative overflow-hidden">
                       <div className="absolute inset-0 bg-indigo-500/5 blur-3xl opacity-50"></div>
                       <div className="p-5 rounded-2xl bg-black/40 border border-white/5 relative z-10">
