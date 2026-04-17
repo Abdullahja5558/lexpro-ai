@@ -46,7 +46,7 @@ const PromptCard = ({ p, isDark, onClick }: any) => (
   <motion.div
     whileTap={{ scale: 0.98 }}
     onClick={onClick}
-    className={`translate-y-2 md:translate-y-6 p-4 md:p-5 rounded-[24px] md:rounded-[28px] border shadow-sm cursor-pointer transition-all flex items-center md:flex-col md:items-start gap-3 md:gap-4 md:min-h-[150px] md:justify-between overflow-hidden ${
+    className={`translate-y-2 md:translate-y-6 p-4 md:p-5 rounded-3xl md:rounded-[28px] border shadow-sm cursor-pointer transition-all flex items-center md:flex-col md:items-start gap-3 md:gap-4 md:min-h-37.5 md:justify-between overflow-hidden ${
       isDark
         ? "bg-white/5 border-white/10 hover:bg-white/10 text-white"
         : "bg-white/40 backdrop-blur-xl border-white/60 hover:bg-white/80 text-slate-800"
@@ -246,14 +246,14 @@ export default function LexProFinal() {
 
   return (
     <div
-      className={`h-[100dvh] w-full transition-all duration-700 flex flex-col font-sans overflow-hidden relative ${
+      className={`h-dvh w-full transition-all duration-700 flex flex-col font-sans overflow-hidden relative ${
         isDark
           ? "bg-[#0a0a0a] text-white"
-          : "bg-gradient-to-br from-[#cfcfff] to-[#fdebfa] text-slate-900"
+          : "bg-linear-to-br from-[#cfcfff] to-[#fdebfa] text-slate-900"
       }`}
     >
     
-      <div className="fixed top-6 left-6 md:top-10 md:left-10 flex items-center gap-3 z-[100] pointer-events-none">
+      <div className="fixed top-6 left-6 md:top-10 md:left-10 flex items-center gap-3 z-100 pointer-events-none">
         <div
           className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shadow-lg transition-all ${
             isDark ? "bg-white text-black" : "bg-[#1a1a1a] text-white"
@@ -273,7 +273,7 @@ export default function LexProFinal() {
       
       <button
         onClick={() => router.push("/about")}
-        className="fixed top-6 right-6 md:top-10 md:right-10 flex items-center gap-2 z-[100] group active:scale-95 transition-all cursor-pointer pointer-events-auto"
+        className="fixed top-6 right-6 md:top-10 md:right-10 flex items-center gap-2 z-100 group active:scale-95 transition-all cursor-pointer pointer-events-auto"
       >
         <div
           className={`px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg backdrop-blur-xl border transition-all ${
@@ -432,7 +432,7 @@ export default function LexProFinal() {
         </AnimatePresence>
       </main>
 
-      <footer className="w-full pb-2 md:pb-6 flex flex-col items-center z-[80] px-4 md:px-6 relative shrink-0">
+      <footer className="w-full pb-2 md:pb-6 flex flex-col items-center z-80 px-4 md:px-6 relative shrink-0">
         <AnimatePresence>
           {messages.length === 0 && (
             <motion.div
@@ -453,7 +453,7 @@ export default function LexProFinal() {
               </div>
               <button
                 onClick={handleRefreshPrompts}
-                className={`absolute -right-2 -top-4 md:top-1/2 md:-translate-y-1/2 w-9 h-9 md:w-11 md:h-11 border shadow-xl rounded-full flex items-center justify-center active:scale-90 transition-all z-[90] ${
+                className={`absolute -right-2 -top-4 md:top-1/2 md:-translate-y-1/2 w-9 h-9 md:w-11 md:h-11 border shadow-xl rounded-full flex items-center justify-center active:scale-90 transition-all z-90 ${
                   isDark ? "bg-[#1a1a1a] border-slate-800 text-white" : "bg-white/80 border-white text-slate-600"
                 }`}
               >
@@ -489,7 +489,7 @@ export default function LexProFinal() {
                   initial={{ opacity: 0, y: 10, scale: 0.95 }}
                   animate={{ opacity: 1, y: -12, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  className={`absolute bottom-full left-0 mb-2 w-44 md:w-48 p-2 rounded-[20px] shadow-2xl border backdrop-blur-3xl z-[110] transition-all ${
+                  className={`absolute bottom-full left-0 mb-2 w-44 md:w-48 p-2 rounded-[20px] shadow-2xl border backdrop-blur-3xl z-110 transition-all ${
                     isDark ? "bg-black/80 border-white/10" : "bg-white/90 border-slate-100"
                   }`}
                 >
@@ -565,7 +565,7 @@ export default function LexProFinal() {
               {loading ? (
                 <Square size={14} fill="white" />
               ) : (
-                <Send size={16} className="rotate-[-45deg]" />
+                <Send size={16} className="-rotate-45" />
               )}
               {!loading && <span className="hidden md:inline text-[14px] font-bold">Send</span>}
             </button>
