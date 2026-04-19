@@ -12,7 +12,7 @@ import {
 export default function AboutSection({ isDark }: { isDark: boolean }) {
   
   
-  const START_DATE = new Date("2026-04-17").getTime(); 
+  const START_DATE = new Date("2026-04-19").getTime(); 
   
   const [statsValues, setStatsValues] = useState({
     community: 120,
