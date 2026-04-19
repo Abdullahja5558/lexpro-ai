@@ -87,7 +87,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} 
               className={`text-5xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-8 ${textColor}`}>
-              Future of <br /> <span className="text-indigo-500 italic font-black">Justice</span> is Here.
+              The Future of <br /> <span className="text-indigo-500 italic font-black">Justice</span>
             </motion.h2>
           </div>
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} 
