@@ -96,7 +96,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
           </motion.div>
         </div>
 
-        {/* --- SECTION 2: STATS --- */}
+       
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-px overflow-hidden rounded-[40px] border mb-32 shadow-2xl transition-all ${isDark ? "bg-white/10 border-white/20" : "bg-slate-300 border-slate-200"}`}>
           {stats.map((s, i) => (
             <motion.div key={i} className={`p-10 md:p-16 flex flex-col items-center text-center transition-all ${isDark ? "bg-[#0a0a0a] hover:bg-white/[0.03]" : "bg-white hover:bg-slate-50"}`}>
