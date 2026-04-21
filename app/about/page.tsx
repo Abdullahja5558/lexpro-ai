@@ -65,7 +65,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
   return (
     <div className={`w-full transition-colors duration-700 font-sans selection:bg-indigo-500 selection:text-white ${isDark ? "bg-[#0a0a0a]" : "bg-[#fcf8f9]"}`}>
       
-      {/* --- FLOATING BACK TO CHAT BUTTON --- */}
+      
       <motion.button
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
