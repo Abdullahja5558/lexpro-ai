@@ -46,7 +46,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
       }));
     };
 
-    // Run once immediately, then every 5 seconds for the "live" feel
+    
     updateNumbers();
     const interval = setInterval(updateNumbers, 5000);
     return () => clearInterval(interval);
