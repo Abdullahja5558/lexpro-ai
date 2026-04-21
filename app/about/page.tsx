@@ -178,7 +178,6 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
         </div>
       </section>
 
-      {/* --- SECTION 4: FEATURES --- */}
       <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h3 className={`text-3xl md:text-5xl font-black tracking-tighter ${textColor}`}>Engineered for Precision.</h3>
