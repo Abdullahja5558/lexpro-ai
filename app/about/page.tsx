@@ -121,7 +121,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
         </div>
       </section>
 
-      {/* --- SECTION 3: LEGAL MODULES & HARDWARE --- */}
+    
       <section className={`py-24 px-6 md:px-12 border-y ${isDark ? "bg-white/[0.02] border-white/10" : "bg-indigo-50/50 border-indigo-100"}`}>
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <div>
