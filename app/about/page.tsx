@@ -191,7 +191,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
         </div>
       </section>
 
-      {/* --- SECTION 3: ENGINE --- */}
+     
       <section
         className={`py-24 px-6 md:px-12 border-y ${isDark ? "bg-white/2 border-white/10" : "bg-indigo-50/50 border-indigo-100"}`}
       >
