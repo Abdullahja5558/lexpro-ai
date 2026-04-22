@@ -101,7 +101,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         onClick={() => (window.location.href = "/dashboard")}
-        className="fixed top-8 right-8 z-[100] flex items-center gap-3 px-6 py-3 rounded-full bg-indigo-600 text-white font-bold shadow-xl shadow-indigo-500/20 hover:bg-indigo-700 transition-all cursor-pointer group"
+        className="fixed top-8 right-8 z-100 flex items-center gap-3 px-6 py-3 rounded-full bg-indigo-600 text-white font-bold shadow-xl shadow-indigo-500/20 hover:bg-indigo-700 transition-all cursor-pointer group"
       >
         <ArrowLeft
           size={18}
