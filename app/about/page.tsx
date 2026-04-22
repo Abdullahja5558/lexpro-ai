@@ -348,7 +348,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
         </div>
       </section>
 
-      {/* --- SECTION 4: BADGES --- */}
+      
       <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto text-center">
         <p
           className={`text-[11px] font-bold uppercase tracking-[0.4em] mb-12 ${mutedColor} opacity-70`}
