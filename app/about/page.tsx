@@ -62,7 +62,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
     };
 
     updateNumbers();
-    // Setting interval to 3 seconds for more "active" feel
+    
     const interval = setInterval(updateNumbers, 3000);
     return () => clearInterval(interval);
   }, []);
