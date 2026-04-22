@@ -270,7 +270,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
             </div>
 
             <div className="absolute w-64 h-64 bg-slate-900/50 rounded-[40px] border border-indigo-500/20 shadow-2xl"></div>
-            <div className="relative z-10 w-56 h-56 bg-[#121212] rounded-2xl border-[4px] border-slate-800 flex items-center justify-center">
+            <div className="relative z-10 w-56 h-56 bg-[#121212] rounded-2xl border-4 border-slate-800 flex items-center justify-center">
               {[0, 90, 180, 270].map((deg, i) => (
                 <div
                   key={i}
