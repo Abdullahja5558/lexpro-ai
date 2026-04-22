@@ -333,7 +333,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
           ].map((feat, i) => (
             <div
               key={i}
-              className={`p-8 rounded-[32px] border transition-all group hover:-translate-y-2 ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-200 shadow-xl"}`}
+              className={`p-8 rounded-4xl border transition-all group hover:-translate-y-2 ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-200 shadow-xl"}`}
             >
               <div className="mb-6 text-indigo-500 group-hover:scale-110 transition-transform">
                 {feat.icon}
