@@ -154,7 +154,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
           {stats.map((s, i) => (
             <motion.div
               key={i}
-              className={`p-10 md:p-16 flex flex-col items-center text-center transition-all ${isDark ? "bg-[#0a0a0a] hover:bg-white/[0.03]" : "bg-white hover:bg-slate-50"}`}
+              className={`p-10 md:p-16 flex flex-col items-center text-center transition-all ${isDark ? "bg-[#0a0a0a] hover:bg-white/3" : "bg-white hover:bg-slate-50"}`}
             >
               <div
                 className={`mb-6 p-4 rounded-2xl ${isDark ? "bg-white/10 text-indigo-400" : "bg-indigo-100 text-indigo-600"}`}
