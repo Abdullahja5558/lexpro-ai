@@ -41,7 +41,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
         (secondsElapsed / twoMinutesInSeconds) * 23,
       );
 
-      // 2. Legal: Growth logic preserved
+      
       const legalGrowth = Math.floor(
         (secondsElapsed / twoMinutesInSeconds) * 132,
       );
