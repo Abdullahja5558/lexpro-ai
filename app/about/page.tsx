@@ -111,7 +111,6 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
         <MessageSquare size={18} className="md:hidden" />
       </motion.button>
 
-      {/* --- SECTION 1: HERO --- */}
       <section className="pt-32 pb-12 px-6 md:px-12 max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
           <div className="max-w-2xl">
