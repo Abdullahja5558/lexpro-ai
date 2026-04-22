@@ -281,7 +281,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
                     {[1, 2, 3, 4, 5].map((p) => (
                       <div
                         key={p}
-                        className="w-2 h-5 bg-gradient-to-b from-yellow-600 to-yellow-800 rounded-b-sm"
+                        className="w-2 h-5 bg-linear-to-b from-yellow-600 to-yellow-800 rounded-b-sm"
                       />
                     ))}
                   </div>
