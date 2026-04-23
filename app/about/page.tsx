@@ -197,8 +197,9 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
             <h3
               className={`text-4xl md:text-6xl font-black tracking-tighter mb-8 ${textColor}`}
             >
-              LEXPRO AI <br />
-              ENGINE
+              ENGINE <br />
+             LEXPRO AI
+          
             </h3>
             <p
               className={`text-[17px] mb-10 font-bold leading-relaxed ${descColor}`}
