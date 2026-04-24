@@ -38,7 +38,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
 
       // 1. Community: Growth logic preserved
       const communityGrowth = Math.floor(
-        (secondsElapsed / twoMinutesInSeconds) * 23.838,
+        (secondsElapsed / twoMinutesInSeconds) * 23.81,
       );
 
       
