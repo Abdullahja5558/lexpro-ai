@@ -24,7 +24,7 @@ const Page = () => {
         {isPageLoading && <InitialLoader key="loader" />}
       </AnimatePresence>
 
-      {/* 2. Main Dashboard with smooth entry */}
+      {/* 2. */}
       {!isPageLoading && (
         <LexProFinal />
       )}
