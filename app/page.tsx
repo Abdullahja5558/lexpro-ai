@@ -9,7 +9,7 @@ const Page = () => {
   const [isPageLoading, setIsPageLoading] = useState(true);
 
   useEffect(() => {
-    // 2.5 seconds premium loading experience
+  
     const timer = setTimeout(() => {
       setIsPageLoading(false);
     }, 2500);
