@@ -24,7 +24,6 @@ const Page = () => {
         {isPageLoading && <InitialLoader key="loader" />}
       </AnimatePresence>
 
-      {/* 2. */}
       {!isPageLoading && (
         <LexProFinal />
       )}
