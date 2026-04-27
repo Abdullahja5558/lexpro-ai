@@ -36,7 +36,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
       const secondsElapsed = Math.floor((now - START_DATE) / 1000);
       const twoMinutesInSeconds = 120;
 
-      // 1. Community: Growth logic preserved
+      
       const communityGrowth = Math.floor(
         (secondsElapsed / twoMinutesInSeconds) * 23.81,
       );
