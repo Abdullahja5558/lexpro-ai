@@ -27,7 +27,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
   const [statsValues, setStatsValues] = useState({
     community: 1200,
     consultations: 85000,
-    liveUsers: 422, // Starting at a more "random" looking number
+    liveUsers: 422, 
   });
 
   useEffect(() => {
