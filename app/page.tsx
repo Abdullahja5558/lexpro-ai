@@ -19,7 +19,7 @@ const Page = () => {
 
   return (
     <>
-      {/* 1. Initial High-End Loader */}
+     
       <AnimatePresence mode="wait">
         {isPageLoading && <InitialLoader key="loader" />}
       </AnimatePresence>
