@@ -49,7 +49,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
    
       const generateRandomLive = () => {
         const chance = Math.random();
-        if (chance > 0.9) return Math.floor(Math.random() * (850 - 600) + 600); // Sudden Spike
+        if (chance > 0.9) return Math.floor(Math.random() * (850 - 600) + 600); 
         if (chance < 0.1) return Math.floor(Math.random() * (200 - 50) + 50); // Sudden Drop
         return Math.floor(Math.random() * (600 - 200) + 200); // Normal Range
       };
