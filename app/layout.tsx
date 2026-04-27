@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     description: "The most advanced AI interface for the Constitution of Pakistan.",
   },
 
-  // Robots (Google ko batane ke liye kya index karna hai)
+  
   robots: {
     index: true,
     follow: true,
