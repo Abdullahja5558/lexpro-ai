@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// 1. Viewport Settings: Mobile par zoom issues rokne ke liye
+// 1. Viewport Settings: Mobile par zoom issues rokn
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
