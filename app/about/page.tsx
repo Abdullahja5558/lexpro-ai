@@ -46,7 +46,7 @@ export default function AboutSection({ isDark }: { isDark: boolean }) {
         (secondsElapsed / twoMinutesInSeconds) * 132,
       );
 
-      // 3. New "Jitter" Live Logic: Randomizes between 100 and 850 with sus
+      // 3. New "Jitter" Live Logic: Randomizes between 100 and 
       const generateRandomLive = () => {
         const chance = Math.random();
         if (chance > 0.9) return Math.floor(Math.random() * (850 - 600) + 600); // Sudden Spike
