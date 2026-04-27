@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import LexProFinal from './dashboard/page';
-import InitialLoader from '@/components/InitialLoader'; // Ensure path is correct
+import InitialLoader from '@/components/InitialLoader';
 
 const Page = () => {
   const [isPageLoading, setIsPageLoading] = useState(true);
