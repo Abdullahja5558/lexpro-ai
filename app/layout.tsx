@@ -20,7 +20,7 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-// 2. Full SEO Metadata Object
+
 export const metadata: Metadata = {
   title: {
     default: "Lex Pro | AI Legal Advisor Pakistan",
