@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Lex Pro | Advanced Legal AI for Pakistan",
     description: "Get instant answers about Pakistani laws and legal procedures.",
-    url: "https://your-lex-pro-link.vercel.app", // Yahan apna actual link daalna
+    url: "https://your-lex-pro-link.vercel.app", 
     siteName: "Lex Pro",
     locale: "en_PK",
     type: "website",
