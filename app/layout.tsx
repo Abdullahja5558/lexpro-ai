@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Abdullah Javed" }],
   creator: "Abdullah Javed",
   
-  // OpenGraph (WhatsApp/Facebook Preview)
+  
   openGraph: {
     title: "Lex Pro | Advanced Legal AI for Pakistan",
     description: "Get instant answers about Pakistani laws and legal procedures.",
