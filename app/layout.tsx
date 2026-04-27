@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     type: "website",
   },
 
-  // Twitter Card
+
   twitter: {
     card: "summary_large_image",
     title: "Lex Pro | AI Legal Advisor",
