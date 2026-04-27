@@ -88,7 +88,7 @@ export async function POST(req: Request) {
       User Query: ${query}
     `;
 
-    // Gemini 3 Flas
+    // Gemin
     const response = await client.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: [{
